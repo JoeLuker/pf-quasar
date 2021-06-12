@@ -429,6 +429,214 @@ class PlayerCharacterModule extends VuexModule {
     // },
     miscellaneous: '',
   };
+
+  gub = {
+    introduction: {
+      name: 'gub',
+      race: 'monkey goblin',
+      trait: [
+        'oblivious',
+        'less effort',
+        'auspicious tattoo',
+        'advantageous distraction',
+        'reactionary',
+        'fate\'s favored',
+      ],
+      class: [{
+        archetype: ['brown-fur transmuter'],
+        name: 'arcanist',
+        level: 4,
+        hitDie: 6,
+        bab: 1 / 2,
+        first: true,
+        skillRanks: 2,
+        classSkills: ['appraise', 'craft', 'fly', 'knowledge', 'lingustics', 'profession', 'spellcraft', 'use magic device'],
+        favored: {
+          hp: 4,
+          skill: 0,
+          race: {
+            'monkey goblin': 0,
+          },
+        },
+      }],
+      alignment: 'N',
+      size: 'small',
+      sizeMod: 1,
+      type: 'humanoid',
+      subtype: ['gnome'],
+      senses: ['low-light vision'],
+      aura: '',
+    },
+    defense: {
+      defensiveAbilities: '',
+      dr: '',
+      immune: '',
+      resist: '',
+      sr: '',
+      weaknesses: '',
+    },
+    offense: {
+      speed: 20,
+      specialAttacks: [
+        {
+          name: 'Arcane Reservoir',
+          points: 0,
+        },
+        {
+          name: 'Arcanist Exploits',
+          exploits: [
+            'item crafting',
+            'feral shifting',
+          ],
+        },
+      ],
+      spellLikeAbilities: '',
+      spells: {
+        class: 'wizard',
+        casterLevel: 9,
+        casting: 'arcanist',
+        spells: {
+          '2nd': {
+            slots: 3,
+            prepared: [
+              'false life',
+              'eagle\'s splendor',
+            ],
+          },
+          '1st': {
+            slots: 5,
+            prepared: [
+              'enlarge person',
+              'face of the devourer',
+              'mage armor',
+            ],
+          },
+          Cantrips: [
+            'read magic',
+            'detect magic',
+            'mage hand',
+            'light',
+            'acid splash',
+            'ghost sound',
+          ],
+        },
+      },
+    },
+    tactics: '',
+    statistics: {
+      abilityScore: {
+        strength: {
+          pointBuy: 16,
+        },
+        dexterity: {
+          pointBuy: 17,
+          racial: 4,
+
+        },
+        constitution: {
+          pointBuy: 9,
+          enhancement: 2,
+        },
+        intelligence: {
+          pointBuy: 13,
+          enhancement: 2,
+          levelUp: 1,
+        },
+        wisdom: {
+          pointBuy: 6,
+          racial: -2,
+        },
+        charisma: {
+          pointBuy: 11,
+        },
+      },
+      feats: [
+        'expanded preparation',
+        'additional traits',
+        'craft wondrous item',
+      ],
+      skills: {
+        diplomacy: {
+          points: 9,
+          ability: 'charisma',
+        },
+        fly: {
+          points: 9,
+          ability: 'dexterity',
+        },
+        'escape artist': {
+          points: 9,
+          ability: 'dexterity',
+        },
+        knowledge: {
+          arcana: {
+            points: 4,
+            ability: 'intelligence',
+          },
+          dungeoneering: {
+            points: 1,
+            ability: 'intelligence',
+          },
+          engineering: {
+            points: 1,
+            ability: 'intelligence',
+          },
+          geography: {
+            points: 1,
+            ability: 'intelligence',
+          },
+          history: {
+            points: 1,
+            ability: 'intelligence',
+          },
+          local: {
+            points: 1,
+            ability: 'intelligence',
+          },
+          nature: {
+            points: 4,
+            ability: 'intelligence',
+          },
+          nobility: {
+            points: 1,
+            ability: 'intelligence',
+          },
+          planes: {
+            points: 4,
+            ability: 'intelligence',
+          },
+          religion: {
+            points: 1,
+            ability: 'intelligence',
+          },
+        },
+        linguistics: {
+          points: 4,
+          ability: 'intelligence',
+        },
+        spellcraft: {
+          points: 4,
+          ability: 'intelligence',
+        },
+        'use magic device': {
+          points: 4,
+          ability: 'charisma',
+        },
+
+      },
+      languages: '',
+      specialQualities: '',
+    },
+    specialAbilities: '',
+    gear: '',
+    ecology: '',
+    // ecology: {
+    //   environment: '',
+    //   organization: '',
+    //   treasure: '',
+    // },
+    miscellaneous: '',
+  };
 }
 
 export const PlayerCharacter = getModule(PlayerCharacterModule);
