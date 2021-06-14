@@ -223,7 +223,7 @@ import Info from 'src/components/Info';
 import { PlayerCharacter } from 'src/store/PlayerCharacterModule';
 
 export default {
-  name: 'Witch',
+  name: 'Sareah',
   meta: {
     title: 'Sareah',
   },
@@ -234,7 +234,7 @@ export default {
   },
   data() {
     return {
-      character: PlayerCharacter.witch,
+      character: PlayerCharacter.sareah,
       toggle: {
         'Mage Armor': {
           type: 'armor',
@@ -261,7 +261,7 @@ export default {
     // INTRODUCTION
     introduction() {
       const abilityMods = { ...this.abilityMods };
-      const introData = { ...PlayerCharacter.witch.introduction };
+      const introData = { ...PlayerCharacter.sareah.introduction };
 
       return {
         cr() {
@@ -306,7 +306,7 @@ export default {
         maxHP() {
           let hitPoints = 0;
 
-          const CharClasses = PlayerCharacter.witch.introduction.class;
+          const CharClasses = PlayerCharacter.sareah.introduction.class;
 
           CharClasses.forEach((charClass) => {
             if (charClass.first) {
@@ -337,11 +337,11 @@ export default {
             fortitude() {
               let tempFort = abilityMods.constitution;
 
-              if (PlayerCharacter.witch.introduction.class[0].saves.fort) {
+              if (PlayerCharacter.sareah.introduction.class[0].saves.fort) {
                 tempFort += 2;
-                tempFort += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2);
+                tempFort += Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 2);
               } else {
-                tempFort += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 3);
+                tempFort += Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 3);
               }
 
               tempFort += resistanceBonus;
@@ -351,11 +351,11 @@ export default {
             reflex() {
               let tempRef = abilityMods.dexterity;
 
-              if (PlayerCharacter.witch.introduction.class[0].saves.ref) {
+              if (PlayerCharacter.sareah.introduction.class[0].saves.ref) {
                 tempRef += 2;
-                tempRef += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2);
+                tempRef += Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 2);
               } else {
-                tempRef += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 3);
+                tempRef += Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 3);
               }
               tempRef += resistanceBonus;
 
@@ -364,11 +364,11 @@ export default {
             will() {
               let tempWill = abilityMods.wisdom;
 
-              if (PlayerCharacter.witch.introduction.class[0].saves.will) {
+              if (PlayerCharacter.sareah.introduction.class[0].saves.will) {
                 tempWill += 2;
-                tempWill += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2);
+                tempWill += Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 2);
               } else {
-                tempWill += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 3);
+                tempWill += Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 3);
               }
 
               tempWill += resistanceBonus;
@@ -392,7 +392,7 @@ export default {
       const option = {
         name: 'Small Cestus',
         attack: this.abilityMods.strength + this.baseAtk
-          + PlayerCharacter.witch.introduction.sizeMod,
+          + PlayerCharacter.sareah.introduction.sizeMod,
         dieCount: 1,
         dieSize: 3,
         damage: this.abilityMods.strength,
@@ -412,8 +412,8 @@ export default {
     },
     specialAttacks() {
       return {
-        maxReservoir: Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2) + 3,
-        currResevoir: Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2) + 3,
+        maxReservoir: Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 2) + 3,
+        currResevoir: Math.floor(PlayerCharacter.sareah.introduction.class[0].level / 2) + 3,
       };
     },
 
@@ -425,7 +425,7 @@ export default {
     // STATISTICS
 
     abilityScores() {
-      const tempAbilityScores: Record<string, number> = { ...PlayerCharacter.witch.statistics.abilityScore };
+      const tempAbilityScores: Record<string, number> = { ...PlayerCharacter.sareah.statistics.abilityScore };
 
       const husk: Record<string, number> = {
         strength: 0,
@@ -461,7 +461,7 @@ export default {
     baseAtk() {
       let bab = 0;
 
-      const CharClasses = PlayerCharacter.witch.introduction.class;
+      const CharClasses = PlayerCharacter.sareah.introduction.class;
 
       CharClasses.forEach((charClass) => {
         bab += Math.floor(charClass.level * charClass.bab);
@@ -470,15 +470,15 @@ export default {
       return bab;
     },
     cmb() {
-      return this.abilityMods.strength + this.baseAtk - PlayerCharacter.witch.introduction.sizeMod;
+      return this.abilityMods.strength + this.baseAtk - PlayerCharacter.sareah.introduction.sizeMod;
     },
     cmd() {
       return 10 + this.abilityMods.dexterity
         + this.abilityMods.strength + this.baseAtk
-        - PlayerCharacter.witch.introduction.sizeMod;
+        - PlayerCharacter.sareah.introduction.sizeMod;
     },
     skills() {
-      const skillPoints = { ...PlayerCharacter.witch.statistics.skills };
+      const skillPoints = { ...PlayerCharacter.sareah.statistics.skills };
 
       const skills = {
         acrobatics: 0,
@@ -524,9 +524,9 @@ export default {
         skills.fly += (Math.log2(this.character.introduction.sizeMod) + 1) * 2;
         skills.stealth += (Math.log2(this.character.introduction.sizeMod) + 1) * 4;
       }
-      const classSkills = [...PlayerCharacter.witch.introduction.class[0].classSkills];
+      const classSkills = [...PlayerCharacter.sareah.introduction.class[0].classSkills];
 
-      const knowledge = { ...PlayerCharacter.witch.statistics.skills.knowledge };
+      const knowledge = { ...PlayerCharacter.sareah.statistics.skills.knowledge };
 
       const knowledgeKeys = Object.keys(knowledge);
 

@@ -39,7 +39,7 @@ const routes: RouteConfig[] = [
     path: '/witch',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Witch.vue') },
+      { path: '', component: () => import('pages/Sareah.vue') },
     ],
   },
   // Always leave this as last one,
