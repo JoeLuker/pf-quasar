@@ -458,12 +458,17 @@ class PlayerCharacterModule extends VuexModule {
             'monkey goblin': 0,
           },
         },
+        saves: {
+          fort: false,
+          ref: false,
+          will: true,
+        },
       }],
       alignment: 'N',
       size: 'small',
       sizeMod: 1,
       type: 'humanoid',
-      subtype: ['gnome'],
+      subtype: ['goblinoid'],
       senses: ['low-light vision'],
       aura: '',
     },
@@ -492,9 +497,9 @@ class PlayerCharacterModule extends VuexModule {
       ],
       spellLikeAbilities: '',
       spells: {
-        class: 'wizard',
-        casterLevel: 9,
-        casting: 'arcanist',
+        class: 'arcanist',
+        casterLevel: 4,
+        casting: 'prepared',
         spells: {
           '2nd': {
             slots: 3,
@@ -511,14 +516,17 @@ class PlayerCharacterModule extends VuexModule {
               'mage armor',
             ],
           },
-          Cantrips: [
-            'read magic',
-            'detect magic',
-            'mage hand',
-            'light',
-            'acid splash',
-            'ghost sound',
-          ],
+          Cantrips: {
+            prepared: [
+              'read magic',
+              'detect magic',
+              'mage hand',
+              'light',
+              'acid splash',
+              'ghost sound',
+            ],
+          },
+
         },
       },
     },
@@ -556,73 +564,530 @@ class PlayerCharacterModule extends VuexModule {
         'craft wondrous item',
       ],
       skills: {
-        diplomacy: {
-          points: 9,
-          ability: 'charisma',
-        },
-        fly: {
-          points: 9,
+        acrobatics: {
+          points: 4,
           ability: 'dexterity',
+          modifier: [{
+            name: 'racial',
+            bonus: 2,
+          }],
+        },
+        appraise: {
+          points: 0,
+          ability: 'intelligence',
+          modifier: [],
+        },
+        bluff: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        climb: {
+          points: 0,
+          ability: 'strength',
+          modifier: [],
+        },
+        craft: {
+          points: 0,
+          ability: 'intelligence',
+          modifier: [],
+        },
+        diplomacy: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        'disable device': {
+          points: 4,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        disguise: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
         },
         'escape artist': {
-          points: 9,
+          points: 4,
           ability: 'dexterity',
+          modifier: [],
+        },
+        fly: {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        'handle animal': {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        heal: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        intimidate: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
         },
         knowledge: {
           arcana: {
-            points: 4,
+            points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           dungeoneering: {
             points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           engineering: {
             points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           geography: {
             points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           history: {
             points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           local: {
             points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           nature: {
-            points: 4,
+            points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           nobility: {
             points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           planes: {
-            points: 4,
+            points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
           religion: {
             points: 1,
             ability: 'intelligence',
+            modifier: [],
           },
         },
         linguistics: {
-          points: 4,
+          points: 0,
           ability: 'intelligence',
+          modifier: [],
+        },
+        perception: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [{
+            name: 'oblivious',
+            bonus: -2,
+          }],
+        },
+        perform: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        profession: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        ride: {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        'sense motive': {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [{
+            name: 'oblivious',
+            bonus: -2,
+          }],
+        },
+        'slight of hand': {
+          points: 4,
+          ability: 'dexterity',
+          modifier: [],
         },
         spellcraft: {
           points: 4,
           ability: 'intelligence',
+          modifier: [],
+        },
+        stealth: {
+          points: 4,
+          ability: 'dexterity',
+          modifier: [{
+            name: 'racial',
+            bonus: 2,
+          }],
+        },
+        survival: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        swim: {
+          points: 0,
+          ability: 'strength',
+          modifier: [],
         },
         'use magic device': {
           points: 4,
           ability: 'charisma',
+          modifier: [],
+        },
+      },
+      languages: '',
+      specialQualities: '',
+    },
+    specialAbilities: '',
+    gear: '',
+    ecology: '',
+    // ecology: {
+    //   environment: '',
+    //   organization: '',
+    //   treasure: '',
+    // },
+    miscellaneous: '',
+  };
+
+  witch = {
+    introduction: {
+      name: 'Sareah',
+      race: 'half-elf',
+      trait: [
+        'oblivious',
+        'less effort',
+        'auspicious tattoo',
+        'advantageous distraction',
+        'reactionary',
+        'fate\'s favored',
+      ],
+      class: [{
+        archetype: ['ley-line gaurdian'],
+        name: 'witch',
+        level: 4,
+        hitDie: 6,
+        bab: 1 / 2,
+        first: true,
+        skillRanks: 2,
+        classSkills: ['craft', 'bluff', 'diplomacy', 'fly', 'heal', 'arcana', 'history', 'nature', 'history', 'planes', 'profession', 'spellcraft', 'use magic device'],
+        favored: {
+          hp: 3,
+          skill: 0,
+          race: {
+            'half-elf': 1,
+          },
+        },
+        saves: {
+          fort: false,
+          ref: false,
+          will: true,
+        },
+      }],
+      alignment: 'N',
+      size: 'medium',
+      sizeMod: 0,
+      type: 'humanoid',
+      subtype: ['elf', 'human'],
+      senses: ['low-light vision'],
+      aura: '',
+    },
+    defense: {
+      defensiveAbilities: '',
+      dr: '',
+      immune: ['sleep'],
+      resist: '',
+      sr: '',
+      weaknesses: '',
+    },
+    offense: {
+      speed: 30,
+      specialAttacks: [
+        {
+          name: 'Witch Hexes',
+          hexes: [
+            'cackle',
+            'misfortune (DC 18)',
+          ],
+        },
+      ],
+      spellLikeAbilities: '',
+      spells: {
+        class: 'witch',
+        casterLevel: 4,
+        casting: 'spontanious',
+        spells: {
+          '2nd': {
+            slots: 5,
+            prepared: [
+              'lipstitch',
+            ],
+          },
+          '1st': {
+            slots: 8,
+            prepared: [
+              '???',
+              '???',
+              'mage armor',
+              'ear-piercing scream',
+            ],
+          },
+          Cantrips: {
+            prepared: [
+              'mage hand',
+              '???',
+              '???',
+              '???',
+              '???',
+              '???',
+            ],
+          },
+
+        },
+        patronSpells: {
+          name: '???',
+          '1st': '???',
+          '2nd': '???',
         },
 
+      },
+    },
+    tactics: '',
+    statistics: {
+      abilityScore: {
+        strength: {
+          pointBuy: 6,
+        },
+        dexterity: {
+          pointBuy: 15,
+        },
+        constitution: {
+          pointBuy: 14,
+        },
+        intelligence: {
+          pointBuy: 17,
+          racial: 2,
+          enhancement: 2,
+          levelUp: 1,
+        },
+        wisdom: {
+          pointBuy: 13,
+        },
+        charisma: {
+          pointBuy: 13,
+        },
+      },
+      feats: [
+        'expanded preparation',
+        'additional traits',
+        'craft wondrous item',
+      ],
+      skills: {
+        acrobatics: {
+          points: 4,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        appraise: {
+          points: 0,
+          ability: 'intelligence',
+          modifier: [],
+        },
+        bluff: {
+          points: 4,
+          ability: 'intelligence',
+          modifier: [{
+            name: 'trait',
+            bonus: 1,
+          }, {
+            name: 'skill focus',
+            bonus: 3,
+          }, {
+            name: 'mwk tools',
+            bonus: 2,
+          },
+          ],
+        },
+        climb: {
+          points: 0,
+          ability: 'strength',
+          modifier: [],
+        },
+        craft: {
+          points: 0,
+          ability: 'intelligence',
+          modifier: [],
+        },
+        diplomacy: {
+          points: 4,
+          ability: 'intelligence',
+          modifier: [],
+        },
+        'disable device': {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        disguise: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        'escape artist': {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        fly: {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        'handle animal': {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        heal: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        intimidate: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        knowledge: {
+          arcana: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          dungeoneering: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          engineering: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          geography: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          history: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          local: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          nature: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          nobility: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          planes: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          religion: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+        },
+        linguistics: {
+          points: 0,
+          ability: 'intelligence',
+          modifier: [],
+        },
+        perception: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        perform: {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
+        profession: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        ride: {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        'sense motive': {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        'slight of hand': {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        spellcraft: {
+          points: 4,
+          ability: 'intelligence',
+          modifier: [],
+        },
+        stealth: {
+          points: 0,
+          ability: 'dexterity',
+          modifier: [],
+        },
+        survival: {
+          points: 0,
+          ability: 'wisdom',
+          modifier: [],
+        },
+        swim: {
+          points: 1,
+          ability: 'strength',
+          modifier: [],
+        },
+        'use magic device': {
+          points: 0,
+          ability: 'charisma',
+          modifier: [],
+        },
       },
       languages: '',
       specialQualities: '',

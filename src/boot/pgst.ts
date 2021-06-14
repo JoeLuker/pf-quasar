@@ -7,6 +7,6 @@ import VuePostgrest from 'vue-postgrest';
 export default boot(({ Vue }) => {
   // something to do
   Vue.use(VuePostgrest, {
-    apiRoot: 'http://auroch:3000',
+    apiRoot: 'http://auroch.synology.me:3000',
   });
 });

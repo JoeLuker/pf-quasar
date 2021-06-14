@@ -23,10 +23,23 @@ const routes: RouteConfig[] = [
     ],
   },
   {
+    path: '/gub',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Gub.vue') },
+    ],
+  },
+  {
     path: '/search',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Search.vue') },
+    ],
+  }, {
+    path: '/witch',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Witch.vue') },
     ],
   },
   // Always leave this as last one,

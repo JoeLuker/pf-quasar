@@ -58,6 +58,12 @@ const linksData = [
     link: '/#/Search',
   },
   {
+    title: 'Gub',
+    caption: 'ooh shiny!',
+    icon: 'auto_fix_high',
+    link: '/#/Gub',
+  },
+  {
     title: 'Immogen',
     caption: 'Let\'s add +24 to this roll...',
     icon: 'hourglass_empty',
@@ -80,6 +86,12 @@ const linksData = [
     caption: 'Shadows n\' shit',
     icon: 'dark_mode',
     link: '/#/322',
+  },
+  {
+    title: '???',
+    caption: 'uwu',
+    icon: 'dark_mode',
+    link: '/#/Witch',
   },
 ];
 

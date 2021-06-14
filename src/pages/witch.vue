@@ -62,7 +62,7 @@
 
           <div id="defensive abilities" v-text="character.defense.defensiveAbilities"></div>
           <div id="dr" v-text="character.defense.dr"></div>
-          <div id="immune" v-text="character.defense.immune"></div>
+          <div class="capitalize" id="immune" v-text=""><b>Immune: </b> {{formatArray(character.defense.immune)}}</div>
           <div id="resist" v-text="character.defense.resist"></div>
           <div id="sr" v-text="character.defense.sr"></div>
 
@@ -76,7 +76,7 @@
         <span>OFFENSE</span>
         <hr>
         <div id="speed">
-          <b>Spd</b> {{ character.offense.speed }} <span>ft., climb 30 ft.</span>
+          <b>Spd</b> {{ character.offense.speed }} <span>ft.</span>
         </div>
         <div v-show="melee" id="melee">
           <b>Melee</b> {{ melee }}
@@ -223,9 +223,9 @@ import Info from 'src/components/Info';
 import { PlayerCharacter } from 'src/store/PlayerCharacterModule';
 
 export default {
-  name: 'Gub',
+  name: 'Witch',
   meta: {
-    title: 'Gub',
+    title: 'Sareah',
   },
   components: {
     SpellList,
@@ -234,41 +234,14 @@ export default {
   },
   data() {
     return {
-      character: PlayerCharacter.gub,
+      character: PlayerCharacter.witch,
       toggle: {
-        shield: {
-          type: 'shield',
-          active: true,
-          duration: 1,
-          bonus: {
-            ac: 4,
-          },
-        },
-        'mage armor': {
+        'Mage Armor': {
           type: 'armor',
+          bonus: 4,
           active: true,
           duration: 2,
-          bonus: {
-            ac: 4,
-          },
-        },
-        'power attack': {
-          active: false,
-          duration: 3,
-
-        },
-        'two handing': {
-          active: false,
-          duration: 3,
-        },
-        'enlarge person': {
-          active: false,
-          duration: 1,
-          bonus: {
-            strength: 2,
-            dexterity: -2,
-            size: -1,
-          },
+          effect: ['ac'],
         },
       },
       spellName: '',
@@ -288,10 +261,7 @@ export default {
     // INTRODUCTION
     introduction() {
       const abilityMods = { ...this.abilityMods };
-      const introData = { ...PlayerCharacter.gub.introduction };
-
-      const toggle = { ...this.$data.toggle };
-      const toggleKeys = Object.keys(toggle);
+      const introData = { ...PlayerCharacter.witch.introduction };
 
       return {
         cr() {
@@ -306,17 +276,6 @@ export default {
         initiative() {
           // TODO
           return abilityMods.dexterity + 2 + 4 + 2 + 1;
-        },
-        sizeModifier() {
-          let tempSize = PlayerCharacter.gub.introduction.sizeMod;
-
-          toggleKeys.forEach((button) => {
-            if ((typeof toggle[button].bonus !== 'undefined') && 'size' in toggle[button].bonus && toggle[button].active) {
-              tempSize += toggle[button].bonus.size;
-            }
-          });
-
-          return tempSize;
         }
         ,
       };
@@ -326,20 +285,19 @@ export default {
       const abilityMods = { ...this.abilityMods };
       const charLevel = this.introduction.level();
       const toggle = { ...this.$data.toggle };
-      const intro = { ...this.introduction };
 
       return {
 
         ac() {
           let tempAC = 10;
 
-          tempAC += abilityMods.dexterity + intro.sizeModifier();
+          tempAC += abilityMods.dexterity;
 
           const toggleKeys = Object.keys(toggle);
 
           toggleKeys.forEach((button) => {
-            if ('bonus' in toggle[button] && 'ac' in toggle[button].bonus && toggle[button].active) {
-              tempAC += toggle[button].bonus.ac;
+            if ((typeof toggle[button].effect !== 'undefined') && toggle[button].effect.includes('ac') && toggle[button].active) {
+              tempAC += toggle[button].bonus;
             }
           });
 
@@ -348,7 +306,7 @@ export default {
         maxHP() {
           let hitPoints = 0;
 
-          const CharClasses = PlayerCharacter.gub.introduction.class;
+          const CharClasses = PlayerCharacter.witch.introduction.class;
 
           CharClasses.forEach((charClass) => {
             if (charClass.first) {
@@ -379,11 +337,11 @@ export default {
             fortitude() {
               let tempFort = abilityMods.constitution;
 
-              if (PlayerCharacter.gub.introduction.class[0].saves.fort) {
+              if (PlayerCharacter.witch.introduction.class[0].saves.fort) {
                 tempFort += 2;
-                tempFort += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2);
+                tempFort += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2);
               } else {
-                tempFort += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 3);
+                tempFort += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 3);
               }
 
               tempFort += resistanceBonus;
@@ -393,11 +351,11 @@ export default {
             reflex() {
               let tempRef = abilityMods.dexterity;
 
-              if (PlayerCharacter.gub.introduction.class[0].saves.ref) {
+              if (PlayerCharacter.witch.introduction.class[0].saves.ref) {
                 tempRef += 2;
-                tempRef += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2);
+                tempRef += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2);
               } else {
-                tempRef += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 3);
+                tempRef += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 3);
               }
               tempRef += resistanceBonus;
 
@@ -406,11 +364,11 @@ export default {
             will() {
               let tempWill = abilityMods.wisdom;
 
-              if (PlayerCharacter.gub.introduction.class[0].saves.will) {
+              if (PlayerCharacter.witch.introduction.class[0].saves.will) {
                 tempWill += 2;
-                tempWill += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2);
+                tempWill += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2);
               } else {
-                tempWill += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 3);
+                tempWill += Math.floor(PlayerCharacter.witch.introduction.class[0].level / 3);
               }
 
               tempWill += resistanceBonus;
@@ -431,31 +389,13 @@ export default {
       return '20';
     },
     melee() {
-      const toggle = { ...this.$data.toggle };
-
-      const toggleKeys = Object.keys(toggle);
-
-      let twoHanding = 0;
-
-      if (toggle['two handing'].active) twoHanding = 1;
-
-      let tempAttack = Math.max(this.abilityMods.dexterity, this.abilityMods.strength) + this.baseAtk
-        + PlayerCharacter.gub.introduction.sizeMod;
-      let tempDamage = Math.floor(this.abilityMods.strength * (1 + (0.5 * twoHanding)));
-
-      if (toggle['power attack'].active) {
-        tempAttack += -(Math.floor(this.baseAtk / 4) + 1);
-        tempDamage += (Math.floor(this.baseAtk / 4) + 1) * (2 + twoHanding);
-      }
-
-      const dieSizeMod = this.introduction.sizeModifier();
-
       const option = {
-        name: 'Small Claw',
-        attack: tempAttack,
+        name: 'Small Cestus',
+        attack: this.abilityMods.strength + this.baseAtk
+          + PlayerCharacter.witch.introduction.sizeMod,
         dieCount: 1,
-        dieSize: 4 - dieSizeMod,
-        damage: tempDamage,
+        dieSize: 3,
+        damage: this.abilityMods.strength,
       };
 
       return `${option.name} ${this.formatBonus(option.attack)} \
@@ -472,8 +412,8 @@ export default {
     },
     specialAttacks() {
       return {
-        maxReservoir: Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2) + 3,
-        currResevoir: Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2) + 3,
+        maxReservoir: Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2) + 3,
+        currResevoir: Math.floor(PlayerCharacter.witch.introduction.class[0].level / 2) + 3,
       };
     },
 
@@ -485,10 +425,7 @@ export default {
     // STATISTICS
 
     abilityScores() {
-      const toggle = { ...this.$data.toggle };
-      const toggleKeys = Object.keys(toggle);
-
-      const tempAbilityScores: Record<string, number> = { ...PlayerCharacter.gub.statistics.abilityScore };
+      const tempAbilityScores: Record<string, number> = { ...PlayerCharacter.witch.statistics.abilityScore };
 
       const husk: Record<string, number> = {
         strength: 0,
@@ -508,11 +445,6 @@ export default {
         });
       });
 
-      if (toggle['enlarge person'].active) {
-        husk.strength += 4;
-        husk.dexterity += -2;
-      }
-
       return husk;
     },
     abilityMods(): Record<string, unknown> {
@@ -529,7 +461,7 @@ export default {
     baseAtk() {
       let bab = 0;
 
-      const CharClasses = PlayerCharacter.gub.introduction.class;
+      const CharClasses = PlayerCharacter.witch.introduction.class;
 
       CharClasses.forEach((charClass) => {
         bab += Math.floor(charClass.level * charClass.bab);
@@ -538,15 +470,15 @@ export default {
       return bab;
     },
     cmb() {
-      return this.abilityMods.strength + this.baseAtk - PlayerCharacter.gub.introduction.sizeMod;
+      return this.abilityMods.strength + this.baseAtk - PlayerCharacter.witch.introduction.sizeMod;
     },
     cmd() {
       return 10 + this.abilityMods.dexterity
         + this.abilityMods.strength + this.baseAtk
-        - PlayerCharacter.gub.introduction.sizeMod;
+        - PlayerCharacter.witch.introduction.sizeMod;
     },
     skills() {
-      const skillPoints = { ...PlayerCharacter.gub.statistics.skills };
+      const skillPoints = { ...PlayerCharacter.witch.statistics.skills };
 
       const skills = {
         acrobatics: 0,
@@ -592,9 +524,9 @@ export default {
         skills.fly += (Math.log2(this.character.introduction.sizeMod) + 1) * 2;
         skills.stealth += (Math.log2(this.character.introduction.sizeMod) + 1) * 4;
       }
-      const classSkills = [...PlayerCharacter.gub.introduction.class[0].classSkills];
+      const classSkills = [...PlayerCharacter.witch.introduction.class[0].classSkills];
 
-      const knowledge = { ...PlayerCharacter.gub.statistics.skills.knowledge };
+      const knowledge = { ...PlayerCharacter.witch.statistics.skills.knowledge };
 
       const knowledgeKeys = Object.keys(knowledge);
 
@@ -854,9 +786,6 @@ export default {
     },
 
   },
-  created() {
-    PlayerCharacter.gub.offense.specialAttacks[0].points = [`${this.specialAttacks.currResevoir}/${this.specialAttacks.maxReservoir}`];
-  },
 };
 </script>
 
@@ -870,7 +799,8 @@ export default {
   text-align: left;
   align-items: baseline;
   padding: 1vmin;
-  background-image: url("../assets/gub.jpg");
+  //background-image: url("../assets/witch.jpg");
+  background-color: #9C27B0;
   background-repeat: no-repeat;
 
   background-size: 100vmax;
