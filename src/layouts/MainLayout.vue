@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh lpR fFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -8,27 +8,29 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="isLeftDrawerOpen = !isLeftDrawerOpen"
+          @click="left = !left"
         />
 
         <q-toolbar-title>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+          </q-avatar>
           Pathfinder!
         </q-toolbar-title>
-
         <div>Quasar v{{ $q.version }}</div>
+
       </q-toolbar>
+      <q-tabs align="left">
+        <q-route-tab to="/" label="Home" />
+        <q-route-tab to="/Search" label="Search" />
+      </q-tabs>
     </q-header>
 
-    <q-drawer
-      v-model="isLeftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
+    <q-drawer v-model="left" side="left" behavior="mobile" elevated>
+
       <q-list>
         <q-item-label
           header
-          class="text-grey-8"
         >
           Essential Links
         </q-item-label>
@@ -88,10 +90,16 @@ const linksData = [
     link: '/#/322',
   },
   {
-    title: '???',
+    title: 'Sareah',
     caption: 'uwu',
-    icon: 'dark_mode',
-    link: '/#/Witch',
+    icon: 'sentiment_very_satisfied',
+    link: '/#/Sareah',
+  },
+  {
+    title: 'Form',
+    caption: 'build a character!',
+    icon: 'add',
+    link: '/#/Form',
   },
 ];
 
@@ -105,17 +113,10 @@ export default defineComponent({
 
     return { essentialLinks };
   },
-  computed: {
-    isLeftDrawerOpen: {
-      // getter
-      get() {
-        return LayoutStore.isLeftDrawerOpen;
-      },
-      // setter
-      set(value) {
-        LayoutStore.setLeftDrawer(value);
-      },
-    },
+  data() {
+    return {
+      left: false,
+    };
   },
 });
 </script>

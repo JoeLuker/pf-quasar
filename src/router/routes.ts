@@ -36,10 +36,30 @@ const routes: RouteConfig[] = [
       { path: '', component: () => import('pages/Search.vue') },
     ],
   }, {
-    path: '/witch',
+    path: '/sareah',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Sareah.vue') },
+    ],
+  }, {
+    path: '/form',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Form.vue') },
+    ],
+  },
+  {
+    path: '/Immogen',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Immogen.vue') },
+    ],
+  },
+  {
+    path: '/Charlotte',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/Charlotte.vue') },
     ],
   },
   // Always leave this as last one,

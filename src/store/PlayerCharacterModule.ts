@@ -768,7 +768,7 @@ class PlayerCharacterModule extends VuexModule {
     miscellaneous: '',
   };
 
-  witch = {
+  sareah = {
     introduction: {
       name: 'Sareah',
       race: 'half-elf',
