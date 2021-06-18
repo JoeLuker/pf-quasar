@@ -1,5 +1,5 @@
 <template>
-  <div id="page">
+  <div id="page" class="window-height">
 
     <div id="stat-block">
 

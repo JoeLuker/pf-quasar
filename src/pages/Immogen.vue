@@ -1,6 +1,6 @@
 <template>
 
-  <div id="page">
+  <div id="page" >
 
     <div id="sheet">
 

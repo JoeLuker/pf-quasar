@@ -42,8 +42,10 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
-      <router-view/>
+    <q-page-container >
+      <q-page>
+      <router-view style="min-height: inherit;"  />
+      </q-page>
     </q-page-container>
   </q-layout>
 </template>

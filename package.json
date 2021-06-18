@@ -12,6 +12,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "@vue/composition-api": "^1.0.0-rc.3",
+    "blitzar": "^0.0.30",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
     "vue-class-component": "^7.2.6",

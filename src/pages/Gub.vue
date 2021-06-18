@@ -213,7 +213,6 @@
     </div>
 
   </div>
-
 </template>
 
 <script lang="ts">
@@ -863,8 +862,8 @@ export default {
 <style scoped lang="scss">
 
 #page {
-  display: flex;
-  flex-direction: row;
+  //display: flex;
+  //flex-direction: row;
   text-shadow: 2px 2px 4px #000000;
   color: white;
   text-align: left;
