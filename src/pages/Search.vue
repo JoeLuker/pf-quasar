@@ -91,7 +91,6 @@
 
       </div>
     </div>
-
   </div>
 </template>
 
@@ -108,6 +107,7 @@ export default {
   mixins: [pg],
   data() {
     return {
+
       entry: {
         entryID: 0,
         table: '',

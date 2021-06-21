@@ -1,16 +1,22 @@
 import { store } from 'quasar/wrappers';
 import Vuex, { Store } from 'vuex';
 
-// eslint-disable-next-line import/no-mutable-exports
-export let storeInstance: Store<unknown>;
+import character from './character';
 
 export default store(({ Vue }) => {
   Vue.use(Vuex);
   // eslint-disable-next-line no-shadow
   const store = new Store<unknown>({
-    modules: {},
-    strict: !!process.env.DEBUGGING,
+    modules: {
+      character,
+    },
+    strict: process.env.DEV,
   });
-  storeInstance = store;
+  if (process.env.DEV && module.hot) {
+    module.hot.accept(['./character'], () => {
+      const newCharacter = require('./character').default;
+      Store.hotUpdate({ modules: { character: newCharacter } });
+    });
+  }
   return store;
 });

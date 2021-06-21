@@ -15,7 +15,7 @@
         <div>
           <span id="race" class="capitalize" v-text="character.introduction.race"/>
           <span id="class" class="capitalize">
-            {{ formatList(character.introduction.class, ['name', 'level']) }}
+            {{ formatList(character.introduction.class, ['archetype', 'name', 'level']) }}
           </span>
         </div>
 
@@ -76,7 +76,7 @@
         <span>OFFENSE</span>
         <hr>
         <div id="speed">
-          <b>Spd</b> {{ character.offense.speed }} <span>ft.</span>
+          <b>Spd</b> {{ character.offense.speed }} <span>ft., climb 30 ft.</span>
         </div>
         <div v-show="melee" id="melee">
           <b>Melee</b> {{ melee }}
@@ -87,7 +87,7 @@
           <b>Reach </b><span id="reach"> {{ reach }} ft.; </span>
         </div>
         <b>Special Attacks </b>
-        <span v-for="(attack, index) in character.offense.specialAttacks" class="special attacks">
+        <span v-for="(attack, index) in character.offense.specialAttacks" class="special-attacks capitalize">
          {{ formatSpecial(attack) }}<span
           v-if="index !== character.offense.specialAttacks.length - 1">, </span>
 </span>
@@ -132,14 +132,20 @@
           <b>CMB </b><span id="cmb" v-text="formatBonus(cmb)"/>;
           <b>CMD </b><span id="cmd" v-text="formatBonus(cmd)"/>;
         </div>
-        <div id="feats" v-text="character.statistics.feats"></div>
-        <b @click="skillToggle = !skillToggle"> Skills </b>
-        <span v-if="skillToggle">
+        <div>
+          <b>Feats </b> <span id="feats" class="capitalize" v-text="formatArray(character.statistics.feats)"/>
+        </div>
+        <div>
+          <b @click="skillToggle = !skillToggle"> Skills </b>
+          <span v-if="skillToggle">
           <span class="capitalize">
             {{ formatSkills(skills) }}
+            <!--                        {{ skills }}-->
+
         </span>
         </span>
-        <span v-if="!skillToggle">...</span>
+          <span v-if="!skillToggle">...</span>
+        </div>
         <div id="languages" v-text="character.statistics.languages"></div>
         <div id="sq" v-text="character.statistics.specialQualities"></div>
 
@@ -171,50 +177,48 @@
 
     </div>
 
-<!--    <div id="info">-->
+    <div id="info">
 
-<!--      <div id="buttons">-->
-<!--        <div v-for="(bonus, key) in toggle" v-bind:key="key" class="toggle"-->
-<!--             v-bind:style="{ 'background-color' : bgColor(bonus.action)}">-->
-<!--          <q-toggle-->
-<!--            v-model="bonus.active"-->
-<!--            :label="key"-->
-<!--            left-label-->
-<!--          />-->
-<!--        </div>-->
-<!--      </div>-->
+      <div id="buttons">
+        <div v-for="(bonus, key) in toggle" v-bind:key="key" class="toggle"
+             v-bind:style="{ 'background-color' : bgColor(bonus.duration)}">
+          <q-toggle
+            v-model="bonus.active"
+            :label="key"
+            left-label
+          />
+        </div>
+      </div>
 
-<!--      <div v-if="abilityName" class="info">-->
+      <div v-if="abilityName" class="info">
 
-<!--        <Info-->
-<!--          v-bind:table="'ability'"-->
-<!--          v-bind:name="this.abilityName"-->
-<!--          @closeInfo="changeInfo"-->
-<!--        />-->
+        <Info
+          v-bind:table="'ability'"
+          v-bind:name="this.abilityName"
+          @closeInfo="changeInfo"
+        />
 
-<!--      </div>-->
+      </div>
 
-<!--      <div v-if="spellName" class="spellDesc">-->
+      <div v-if="spellName" class="spellDesc">
 
-<!--        <FullText-->
-<!--          v-bind:table="'spell'"-->
-<!--          v-bind:name="this.spellName"-->
-<!--          @closeSpell="closeInfo"-->
-<!--        />-->
+        <FullText
+          v-bind:table="'spell'"
+          v-bind:name="this.spellName"
+          @closeSpell="closeInfo"
+        />
 
-<!--      </div>-->
+      </div>
 
-<!--    </div>-->
+    </div>
 
   </div>
-
 </template>
 
 <script lang="ts">
 import SpellList from 'src/components/SpellList.vue';
 import FullText from 'src/components/FullText';
 import Info from 'src/components/Info';
-import { PlayerCharacter } from 'src/store/PlayerCharacterModule';
 
 export default {
   name: '322',
@@ -228,54 +232,42 @@ export default {
   },
   data() {
     return {
-      character: PlayerCharacter['322'],
+      character: this.$store.state.character['322'],
       toggle: {
-        Heroism: {
-          type: 'Morale',
-          bonus: 2,
+        shield: {
+          type: 'shield',
           active: true,
-          rollType: ['Attack Rolls', 'Saving Throws', 'Skill Checks'],
-          action: 2,
+          duration: 1,
+          bonus: {
+            ac: 4,
+          },
         },
-        'Mage Armor': {
+        'mage armor': {
           type: 'armor',
-          bonus: 4,
           active: true,
-          action: 2,
+          duration: 2,
+          bonus: {
+            ac: 4,
+          },
         },
-        'Power Attack': {
-          active: true,
-          action: 0,
-        },
-        'Two-Handing': {
-          active: true,
-          action: 0,
-        },
-        Haste: {
-          type: 'Dodge',
-          bonus: 1,
+        'power attack': {
           active: false,
-          rollType: ['Attack Rolls', 'Reflex Saving Throws', 'Armor Class'],
-          action: 2,
-        },
-        'Deadly Aim': {
-          active: true,
-          action: 0,
-        },
-        Holy: {
-          active: false,
-          action: 0,
-        },
-        'Weapon of Awe': {
-          active: false,
-          action: 2,
-        },
-        'Good Hope': {
-          active: false,
-          bonus: 2,
-          action: 2,
-        },
+          duration: 3,
 
+        },
+        'two handing': {
+          active: false,
+          duration: 3,
+        },
+        'enlarge person': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: 4,
+            dexterity: -2,
+            size: -1,
+          },
+        },
       },
       spellName: '',
       skillToggle: true,
@@ -294,7 +286,10 @@ export default {
     // INTRODUCTION
     introduction() {
       const abilityMods = { ...this.abilityMods };
-      const introData = { ...PlayerCharacter['322'].introduction };
+      const introData = { ...this.character.introduction };
+
+      const toggle = { ...this.toggle };
+      const toggleKeys = Object.keys(toggle);
 
       return {
         cr() {
@@ -307,7 +302,19 @@ export default {
           return introData.class.reduce((accumulator, cur) => accumulator + cur.level, 0);
         },
         initiative() {
-          return abilityMods.dexterity;
+          // TODO
+          return abilityMods.dexterity + 2 + 4 + 2 + 1;
+        },
+        sizeModifier() {
+          let tempSize = introData.sizeMod;
+
+          toggleKeys.forEach((button) => {
+            if ((typeof toggle[button].bonus !== 'undefined') && 'size' in toggle[button].bonus && toggle[button].active) {
+              tempSize += toggle[button].bonus.size;
+            }
+          });
+
+          return tempSize;
         }
         ,
       };
@@ -316,16 +323,31 @@ export default {
     defense() {
       const abilityMods = { ...this.abilityMods };
       const charLevel = this.introduction.level();
+      const toggle = { ...this.toggle };
+      const intro = { ...this.introduction };
+      const charData = { ...this.character };
 
       return {
 
         ac() {
-          return 10 + abilityMods.dexterity + abilityMods.charisma + 4 + 3;
+          let tempAC = 10;
+
+          tempAC += abilityMods.dexterity + intro.sizeModifier();
+
+          const toggleKeys = Object.keys(toggle);
+
+          toggleKeys.forEach((button) => {
+            if ('bonus' in toggle[button] && 'ac' in toggle[button].bonus && toggle[button].active) {
+              tempAC += toggle[button].bonus.ac;
+            }
+          });
+
+          return tempAC;
         },
         maxHP() {
           let hitPoints = 0;
 
-          const CharClasses = PlayerCharacter['322'].introduction.class;
+          const CharClasses = charData.introduction.class;
 
           CharClasses.forEach((charClass) => {
             if (charClass.first) {
@@ -349,16 +371,54 @@ export default {
           return this.maxHP();
         },
         savingThrows() {
+          const resistanceBonus = 1;
+
           return {
 
             fortitude() {
-              return abilityMods.constitution + 6;
+              let tempFort = abilityMods.constitution;
+
+              if (charData.introduction.class[0].saves.fort) {
+                tempFort += 2;
+                tempFort += Math.floor(charData.introduction.class[0].level / 2);
+              } else {
+                tempFort += Math.floor(charData.introduction.class[0].level / 3);
+              }
+
+              tempFort += resistanceBonus;
+
+              return tempFort;
             },
             reflex() {
-              return abilityMods.dexterity + 6;
+              let tempRef = abilityMods.dexterity;
+
+              if (charData.introduction.class[0].saves.ref) {
+                tempRef += 2;
+                tempRef += Math.floor(charData.introduction.class[0].level / 2);
+              } else {
+                tempRef += Math.floor(charData.introduction.class[0].level / 3);
+              }
+              tempRef += resistanceBonus;
+
+              return tempRef;
             },
             will() {
-              return abilityMods.wisdom + 11;
+              let tempWill = abilityMods.wisdom;
+
+              if (charData.introduction.class[0].saves.will) {
+                tempWill += 2;
+                tempWill += Math.floor(charData.introduction.class[0].level / 2);
+              } else {
+                tempWill += Math.floor(charData.introduction.class[0].level / 3);
+              }
+
+              tempWill += resistanceBonus;
+
+              // TODO
+              // auspicoius tattoo
+              tempWill += 1;
+
+              return tempWill;
             },
           };
         },
@@ -367,16 +427,34 @@ export default {
     // OFFENSE
 
     speed() {
-      return '20';
+      return 20;
     },
     melee() {
+      const toggle = { ...this.toggle };
+
+      const toggleKeys = Object.keys(toggle);
+
+      let twoHanding = 0;
+
+      if (toggle['two handing'].active) twoHanding = 1;
+
+      let tempAttack = Math.max(this.abilityMods.dexterity, this.abilityMods.strength) + this.baseAtk
+        + this.character.introduction.sizeMod;
+      let tempDamage = Math.floor(this.abilityMods.strength * (1 + (0.5 * twoHanding)));
+
+      if (toggle['power attack'].active) {
+        tempAttack += -(Math.floor(this.baseAtk / 4) + 1);
+        tempDamage += (Math.floor(this.baseAtk / 4) + 1) * (2 + twoHanding);
+      }
+
+      const dieSizeMod = this.introduction.sizeModifier();
+
       const option = {
-        name: 'Dagger',
-        attack: this.abilityMods.strength + this.baseAtk
-          + PlayerCharacter['322'].introduction.sizeMod,
+        name: 'Small Claw',
+        attack: tempAttack,
         dieCount: 1,
-        dieSize: 4,
-        damage: this.abilityMods.strength,
+        dieSize: 4 - dieSizeMod,
+        damage: tempDamage,
       };
 
       return `${option.name} ${this.formatBonus(option.attack)} \
@@ -393,8 +471,8 @@ export default {
     },
     specialAttacks() {
       return {
-        maxReservoir: Math.floor(PlayerCharacter['322'].introduction.class[0].level / 2) + 3,
-        currResevoir: Math.floor(PlayerCharacter['322'].introduction.class[0].level / 2) + 3,
+        maxReservoir: Math.floor(this.character.introduction.class[0].level / 2) + 3,
+        currResevoir: Math.floor(this.character.introduction.class[0].level / 2) + 3,
       };
     },
 
@@ -406,7 +484,10 @@ export default {
     // STATISTICS
 
     abilityScores() {
-      const tempAbilityScores: Record<string, number> = { ...PlayerCharacter['322'].statistics.abilityScore };
+      const toggle = { ...this.toggle };
+      const toggleKeys = Object.keys(toggle);
+
+      const tempAbilityScores: Record<string, number> = { ...this.character.statistics.abilityScore };
 
       const husk: Record<string, number> = {
         strength: 0,
@@ -426,6 +507,11 @@ export default {
         });
       });
 
+      if (toggle['enlarge person'].active) {
+        husk.strength += 4;
+        husk.dexterity += -2;
+      }
+
       return husk;
     },
     abilityMods(): Record<string, unknown> {
@@ -442,7 +528,7 @@ export default {
     baseAtk() {
       let bab = 0;
 
-      const CharClasses = PlayerCharacter['322'].introduction.class;
+      const CharClasses = this.character.introduction.class;
 
       CharClasses.forEach((charClass) => {
         bab += Math.floor(charClass.level * charClass.bab);
@@ -451,32 +537,63 @@ export default {
       return bab;
     },
     cmb() {
-      return this.abilityMods.strength + this.baseAtk - PlayerCharacter['322'].introduction.sizeMod;
+      return this.abilityMods.strength + this.baseAtk - this.character.introduction.sizeMod;
     },
     cmd() {
       return 10 + this.abilityMods.dexterity
         + this.abilityMods.strength + this.baseAtk
-        - PlayerCharacter['322'].introduction.sizeMod;
+        - this.character.introduction.sizeMod;
     },
     skills() {
-      const skillPoints = { ...PlayerCharacter['322'].statistics.skills };
+      const skillPoints = { ...this.character.statistics.skills };
 
       const skills = {
-        stealth: 0,
+        acrobatics: 0,
+        appraise: 0,
+        bluff: 0,
+        climb: 0,
+        craft: 0,
+        diplomacy: 0,
+        'disable device': 0,
         disguise: 0,
+        'escape artist': 0,
+        fly: 0,
+        'handle animal': 0,
         heal: 0,
+        intimidate: 0,
         knowledge: {
           arcana: 0,
+          dungeoneering: 0,
+          engineering: 0,
+          geography: 0,
+          history: 0,
+          local: 0,
+          nature: 0,
+          nobility: 0,
           planes: 0,
           religion: 0,
         },
+        linguistics: 0,
         perception: 0,
+        perform: 0,
+        profession: 0,
+        ride: 0,
+        'sense motive': 0,
+        'slight of hand': 0,
         spellcraft: 0,
+        stealth: 0,
+        survival: 0,
+        swim: 0,
+        'use magic device': 0,
       };
 
-      const classSkills = [...PlayerCharacter['322'].introduction.class[0].classSkills];
+      if (this.character.introduction.sizeMod !== 0) {
+        skills.fly += (Math.log2(this.character.introduction.sizeMod) + 1) * 2;
+        skills.stealth += (Math.log2(this.character.introduction.sizeMod) + 1) * 4;
+      }
+      const classSkills = [...this.character.introduction.class[0].classSkills];
 
-      const knowledge = { ...PlayerCharacter['322'].statistics.skills.knowledge };
+      const knowledge = { ...this.character.statistics.skills.knowledge };
 
       const knowledgeKeys = Object.keys(knowledge);
 
@@ -491,6 +608,7 @@ export default {
         } else {
           skills[skillKey] += skillPoints[skillKey].points;
           skills[skillKey] += this.abilityMods[skillPoints[skillKey].ability];
+          skills[skillKey] += skillPoints[skillKey].modifier.reduce((accumulator, cur) => accumulator + cur.bonus, 0);
         }
         classSkills.forEach((classSkill) => {
           if (classSkill === skillKey && skillPoints[skillKey].points >= 1) skills[skillKey] += 3;
@@ -697,6 +815,16 @@ export default {
 
       return list;
     },
+    formatArray(myArray) {
+      let list = '';
+
+      myArray.forEach((item, idx, array) => {
+        list += item;
+        if (idx !== array.length - 1) list += ', ';
+      });
+
+      return list;
+    },
 
     closeInfo() {
       this.spellName = null;
@@ -708,16 +836,16 @@ export default {
     changeInfo(value) {
       this.abilityName = value;
     },
-    bgColor(action) {
+    bgColor(duration) {
       let color;
 
-      if (action === 0) {
+      if (duration === 0) {
         color = 'rgba(0,0,0,.25)';
       }
-      if (action === 1) {
+      if (duration === 1) {
         color = 'rgba(255,0,0,.25)';
       }
-      if (action === 2) {
+      if (duration === 2) {
         color = 'rgba(0,0,255,.25)';
       }
 
@@ -726,7 +854,7 @@ export default {
 
   },
   created() {
-    // PlayerCharacter['322'].offense.specialAttacks[0].points = [`${this.specialAttacks.currResevoir}/${this.specialAttacks.maxReservoir}`];
+    // this.character.offense.specialAttacks[0].points = [`${this.specialAttacks.currResevoir}/${this.specialAttacks.maxReservoir}`];
   },
 };
 </script>
@@ -734,19 +862,18 @@ export default {
 <style scoped lang="scss">
 
 #page {
-  display: flex;
-  flex-direction: row;
+  //display: flex;
+  //flex-direction: row;
   text-shadow: 2px 2px 4px #000000;
   color: white;
   text-align: left;
   align-items: baseline;
   padding: 1vmin;
-  background: rgb(54, 54, 54);
   background-image: url("../assets/322.png");
   background-repeat: no-repeat;
 
   background-size: 100vmax;
-  background-position: 50% 30%;
+  background-position: 50% 10%;
   background-attachment: fixed;
   justify-content: space-between;
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="page" class="window-height">
+  <div id="page">
 
     <div id="stat-block">
 
@@ -62,12 +62,17 @@
 
           <div id="defensive abilities" v-text="character.defense.defensiveAbilities"></div>
           <div id="dr" v-text="character.defense.dr"></div>
-          <div class="capitalize" id="immune" v-text=""><b>Immune: </b> {{formatArray(character.defense.immune)}}</div>
+          <div id="immune" v-text="character.defense.immune"></div>
           <div id="resist" v-text="character.defense.resist"></div>
           <div id="sr" v-text="character.defense.sr"></div>
 
         </div>
-        <div id="weaknesses" v-text="character.defense.weaknesses"></div>
+        <div id="weaknesses">
+          <b>Weaknesses</b>
+          <span class="capitalize">
+          {{ formatArray(character.defense.weaknesses) }}
+          </span>
+        </div>
 
       </div>
 
@@ -76,7 +81,7 @@
         <span>OFFENSE</span>
         <hr>
         <div id="speed">
-          <b>Spd</b> {{ character.offense.speed }} <span>ft.</span>
+          <b>Spd</b> {{ character.offense.speed }} <span>ft., climb 30 ft.</span>
         </div>
         <div v-show="melee" id="melee">
           <b>Melee</b> {{ melee }}
@@ -136,16 +141,16 @@
           <b>Feats </b> <span id="feats" class="capitalize" v-text="formatArray(character.statistics.feats)"/>
         </div>
         <div>
-        <b @click="skillToggle = !skillToggle"> Skills </b>
-        <span v-if="skillToggle">
+          <b @click="skillToggle = !skillToggle"> Skills </b>
+          <span v-if="skillToggle">
           <span class="capitalize">
             {{ formatSkills(skills) }}
             <!--                        {{ skills }}-->
 
         </span>
         </span>
-        <span v-if="!skillToggle">...</span>
-          </div>
+          <span v-if="!skillToggle">...</span>
+        </div>
         <div id="languages" v-text="character.statistics.languages"></div>
         <div id="sq" v-text="character.statistics.specialQualities"></div>
 
@@ -213,7 +218,6 @@
     </div>
 
   </div>
-
 </template>
 
 <script lang="ts">
@@ -222,10 +226,7 @@ import FullText from 'src/components/FullText';
 import Info from 'src/components/Info';
 
 export default {
-  name: 'Sareah',
-  meta: {
-    title: 'Sareah',
-  },
+  name: 'Sheet',
   components: {
     SpellList,
     FullText,
@@ -233,14 +234,41 @@ export default {
   },
   data() {
     return {
-      character: this.$store.state.character.sareah,
+
       toggle: {
-        'Mage Armor': {
+        shield: {
+          type: 'shield',
+          active: true,
+          duration: 1,
+          bonus: {
+            ac: 4,
+          },
+        },
+        'mage armor': {
           type: 'armor',
-          bonus: 4,
           active: true,
           duration: 2,
-          effect: ['ac'],
+          bonus: {
+            ac: 4,
+          },
+        },
+        'power attack': {
+          active: false,
+          duration: 3,
+
+        },
+        'two handing': {
+          active: false,
+          duration: 3,
+        },
+        'enlarge person': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: 4,
+            dexterity: -2,
+            size: -1,
+          },
         },
       },
       spellName: '',
@@ -255,12 +283,18 @@ export default {
       abilityName: '',
     };
   },
+  props: {
+    character: Object,
+  },
   computed: {
 
     // INTRODUCTION
     introduction() {
       const abilityMods = { ...this.abilityMods };
       const introData = { ...this.character.introduction };
+
+      const toggle = { ...this.toggle };
+      const toggleKeys = Object.keys(toggle);
 
       return {
         cr() {
@@ -275,6 +309,17 @@ export default {
         initiative() {
           // TODO
           return abilityMods.dexterity + 2 + 4 + 2 + 1;
+        },
+        sizeModifier() {
+          let tempSize = introData.sizeMod;
+
+          toggleKeys.forEach((button) => {
+            if ((typeof toggle[button].bonus !== 'undefined') && 'size' in toggle[button].bonus && toggle[button].active) {
+              tempSize += toggle[button].bonus.size;
+            }
+          });
+
+          return tempSize;
         }
         ,
       };
@@ -283,8 +328,7 @@ export default {
     defense() {
       const abilityMods = { ...this.abilityMods };
       const charLevel = this.introduction.level();
-      const toggle = { ...this.$data.toggle };
-
+      const toggle = { ...this.toggle };
       const intro = { ...this.introduction };
       const charData = { ...this.character };
 
@@ -293,13 +337,13 @@ export default {
         ac() {
           let tempAC = 10;
 
-          tempAC += abilityMods.dexterity;
+          tempAC += abilityMods.dexterity + intro.sizeModifier();
 
           const toggleKeys = Object.keys(toggle);
 
           toggleKeys.forEach((button) => {
-            if ((typeof toggle[button].effect !== 'undefined') && toggle[button].effect.includes('ac') && toggle[button].active) {
-              tempAC += toggle[button].bonus;
+            if ('bonus' in toggle[button] && 'ac' in toggle[button].bonus && toggle[button].active) {
+              tempAC += toggle[button].bonus.ac;
             }
           });
 
@@ -308,21 +352,33 @@ export default {
         maxHP() {
           let hitPoints = 0;
 
+          let maxHitDie = 0;
+
           const CharClasses = charData.introduction.class;
 
           CharClasses.forEach((charClass) => {
-            if (charClass.first) {
-              hitPoints += charClass.hitDie;
-              hitPoints += (charClass.level - 1) * Math.ceil((charClass.hitDie + 1) / 2);
-            } else {
-              hitPoints += charClass.level * Math.ceil((charClass.hitDie + 1) / 2);
-            }
-            if (typeof charClass.favored !== 'undefined') {
-              if (typeof charClass.favored.hp !== 'undefined') {
-                hitPoints += charClass.favored.hp;
+            if (charClass.name !== 'gestalt') {
+              if (charClass.first) {
+                hitPoints += charClass.hitDie;
+                hitPoints += (charClass.level - 1) * Math.ceil((charClass.hitDie + 1) / 2);
+              } else {
+                hitPoints += charClass.level * Math.ceil((charClass.hitDie + 1) / 2);
               }
+              if (typeof charClass.favored !== 'undefined') {
+                if (typeof charClass.favored.hp !== 'undefined') {
+                  hitPoints += charClass.favored.hp;
+                }
+              }
+            } else {
+              charClass.gestalt.forEach((gestaltClass) => {
+                maxHitDie = Math.max(gestaltClass.hitDie, maxHitDie);
+              });
             }
           });
+
+          if (charData.introduction.solo) {
+            hitPoints = maxHitDie * charLevel;
+          }
 
           hitPoints += charLevel * abilityMods.constitution;
 
@@ -334,12 +390,21 @@ export default {
         savingThrows() {
           const resistanceBonus = 1;
 
+          const fort = (charData.introduction.class[0].gestalt[0].saves.fort
+            || charData.introduction.class[0].gestalt[1].saves.fort);
+
+          const ref = (charData.introduction.class[0].gestalt[0].saves.ref
+            || charData.introduction.class[0].gestalt[1].saves.ref);
+
+          const will = (charData.introduction.class[0].gestalt[0].saves.will
+            || charData.introduction.class[0].gestalt[1].saves.will);
+
           return {
 
             fortitude() {
               let tempFort = abilityMods.constitution;
 
-              if (charData.introduction.class[0].saves.fort) {
+              if (fort) {
                 tempFort += 2;
                 tempFort += Math.floor(charData.introduction.class[0].level / 2);
               } else {
@@ -353,7 +418,7 @@ export default {
             reflex() {
               let tempRef = abilityMods.dexterity;
 
-              if (charData.introduction.class[0].saves.ref) {
+              if (ref) {
                 tempRef += 2;
                 tempRef += Math.floor(charData.introduction.class[0].level / 2);
               } else {
@@ -366,7 +431,7 @@ export default {
             will() {
               let tempWill = abilityMods.wisdom;
 
-              if (charData.introduction.class[0].saves.will) {
+              if (will) {
                 tempWill += 2;
                 tempWill += Math.floor(charData.introduction.class[0].level / 2);
               } else {
@@ -388,16 +453,34 @@ export default {
     // OFFENSE
 
     speed() {
-      return '20';
+      return 20;
     },
     melee() {
+      const toggle = { ...this.toggle };
+
+      const toggleKeys = Object.keys(toggle);
+
+      let twoHanding = 0;
+
+      if (toggle['two handing'].active) twoHanding = 1;
+
+      let tempAttack = Math.max(this.abilityMods.dexterity, this.abilityMods.strength) + this.baseAtk
+        + this.character.introduction.sizeMod;
+      let tempDamage = Math.floor(this.abilityMods.strength * (1 + (0.5 * twoHanding)));
+
+      if (toggle['power attack'].active) {
+        tempAttack += -(Math.floor(this.baseAtk / 4) + 1);
+        tempDamage += (Math.floor(this.baseAtk / 4) + 1) * (2 + twoHanding);
+      }
+
+      const dieSizeMod = this.introduction.sizeModifier();
+
       const option = {
-        name: 'Small Cestus',
-        attack: this.abilityMods.strength + this.baseAtk
-          + this.character.introduction.sizeMod,
+        name: 'Small Claw',
+        attack: tempAttack,
         dieCount: 1,
-        dieSize: 3,
-        damage: this.abilityMods.strength,
+        dieSize: 4 - dieSizeMod,
+        damage: tempDamage,
       };
 
       return `${option.name} ${this.formatBonus(option.attack)} \
@@ -427,6 +510,9 @@ export default {
     // STATISTICS
 
     abilityScores() {
+      const toggle = { ...this.toggle };
+      const toggleKeys = Object.keys(toggle);
+
       const tempAbilityScores: Record<string, number> = { ...this.character.statistics.abilityScore };
 
       const husk: Record<string, number> = {
@@ -447,6 +533,11 @@ export default {
         });
       });
 
+      if (toggle['enlarge person'].active) {
+        husk.strength += 4;
+        husk.dexterity += -2;
+      }
+
       return husk;
     },
     abilityMods(): Record<string, unknown> {
@@ -463,10 +554,20 @@ export default {
     baseAtk() {
       let bab = 0;
 
+      let maxBAB = 0;
+
       const CharClasses = this.character.introduction.class;
 
       CharClasses.forEach((charClass) => {
-        bab += Math.floor(charClass.level * charClass.bab);
+        if (charClass.name !== 'gestalt') {
+          bab += Math.floor(charClass.level * charClass.bab);
+        } else {
+          charClass.gestalt.forEach((gestaltClass) => {
+            maxBAB = Math.max(gestaltClass.hitDie, maxBAB);
+          });
+        }
+        bab += maxBAB;
+        maxBAB = 0;
       });
 
       return bab;
@@ -526,7 +627,9 @@ export default {
         skills.fly += (Math.log2(this.character.introduction.sizeMod) + 1) * 2;
         skills.stealth += (Math.log2(this.character.introduction.sizeMod) + 1) * 4;
       }
-      const classSkills = [...this.character.introduction.class[0].classSkills];
+      const classSkills = [...this.character.introduction.class[0].gestalt[0].classSkills];
+
+      Array.prototype.push.apply(classSkills, [...this.character.introduction.class[0].gestalt[1].classSkills]);
 
       const knowledge = { ...this.character.statistics.skills.knowledge };
 
@@ -788,25 +891,25 @@ export default {
     },
 
   },
+
 };
 </script>
 
 <style scoped lang="scss">
 
 #page {
-  display: flex;
-  flex-direction: row;
+  //display: flex;
+  //flex-direction: row;
   text-shadow: 2px 2px 4px #000000;
   color: white;
   text-align: left;
   align-items: baseline;
   padding: 1vmin;
-  //background-image: url("../assets/witch.jpg");
-  background-color: #9C27B0;
+  background-image: url("../assets/Immogen_single.png");
   background-repeat: no-repeat;
 
   background-size: 100vmax;
-  background-position: 50% 30%;
+  background-position: 50% 50%;
   background-attachment: fixed;
   justify-content: space-between;
 

@@ -1,13 +1,13 @@
 <template>
   <div>
 
-    <div v-if="!Array.isArray(x) && typeof x === 'object'">
+    <div v-if="!Array.isArray(subRoot) && typeof subRoot === 'object'">
 
-      <sub-object :sub-object="x"/>
+      <sub-object :sub-object="subRoot"/>
 
     </div>
-    <div v-if="Array.isArray(x) && typeof x === 'object'">
-      <sub-array :sub-array="x"/>
+    <div v-else-if="Array.isArray(subRoot) && typeof subRoot === 'object'">
+      <sub-array :sub-array="subRoot"/>
 
     </div>
   </div>
@@ -21,8 +21,7 @@ import SubArray from './SubArray.vue';
 export default {
   name: 'Root',
   props: {
-    subObject: Object,
-    subArray: Array,
+    subRoot: Object,
   },
   components: {
     SubObject,

@@ -219,7 +219,6 @@
 import SpellList from 'src/components/SpellList.vue';
 import FullText from 'src/components/FullText';
 import Info from 'src/components/Info';
-import { PlayerCharacter } from 'src/store/PlayerCharacterModule';
 
 export default {
   name: 'Gub',
@@ -233,7 +232,7 @@ export default {
   },
   data() {
     return {
-      character: PlayerCharacter.gub,
+      character: this.$store.state.character.gub,
       toggle: {
         shield: {
           type: 'shield',
@@ -264,7 +263,7 @@ export default {
           active: false,
           duration: 1,
           bonus: {
-            strength: 2,
+            strength: 4,
             dexterity: -2,
             size: -1,
           },
@@ -287,9 +286,9 @@ export default {
     // INTRODUCTION
     introduction() {
       const abilityMods = { ...this.abilityMods };
-      const introData = { ...PlayerCharacter.gub.introduction };
+      const introData = { ...this.character.introduction };
 
-      const toggle = { ...this.$data.toggle };
+      const toggle = { ...this.toggle };
       const toggleKeys = Object.keys(toggle);
 
       return {
@@ -307,7 +306,7 @@ export default {
           return abilityMods.dexterity + 2 + 4 + 2 + 1;
         },
         sizeModifier() {
-          let tempSize = PlayerCharacter.gub.introduction.sizeMod;
+          let tempSize = introData.sizeMod;
 
           toggleKeys.forEach((button) => {
             if ((typeof toggle[button].bonus !== 'undefined') && 'size' in toggle[button].bonus && toggle[button].active) {
@@ -324,8 +323,9 @@ export default {
     defense() {
       const abilityMods = { ...this.abilityMods };
       const charLevel = this.introduction.level();
-      const toggle = { ...this.$data.toggle };
+      const toggle = { ...this.toggle };
       const intro = { ...this.introduction };
+      const charData = { ...this.character };
 
       return {
 
@@ -347,7 +347,7 @@ export default {
         maxHP() {
           let hitPoints = 0;
 
-          const CharClasses = PlayerCharacter.gub.introduction.class;
+          const CharClasses = charData.introduction.class;
 
           CharClasses.forEach((charClass) => {
             if (charClass.first) {
@@ -378,11 +378,11 @@ export default {
             fortitude() {
               let tempFort = abilityMods.constitution;
 
-              if (PlayerCharacter.gub.introduction.class[0].saves.fort) {
+              if (charData.introduction.class[0].saves.fort) {
                 tempFort += 2;
-                tempFort += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2);
+                tempFort += Math.floor(charData.introduction.class[0].level / 2);
               } else {
-                tempFort += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 3);
+                tempFort += Math.floor(charData.introduction.class[0].level / 3);
               }
 
               tempFort += resistanceBonus;
@@ -392,11 +392,11 @@ export default {
             reflex() {
               let tempRef = abilityMods.dexterity;
 
-              if (PlayerCharacter.gub.introduction.class[0].saves.ref) {
+              if (charData.introduction.class[0].saves.ref) {
                 tempRef += 2;
-                tempRef += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2);
+                tempRef += Math.floor(charData.introduction.class[0].level / 2);
               } else {
-                tempRef += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 3);
+                tempRef += Math.floor(charData.introduction.class[0].level / 3);
               }
               tempRef += resistanceBonus;
 
@@ -405,11 +405,11 @@ export default {
             will() {
               let tempWill = abilityMods.wisdom;
 
-              if (PlayerCharacter.gub.introduction.class[0].saves.will) {
+              if (charData.introduction.class[0].saves.will) {
                 tempWill += 2;
-                tempWill += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2);
+                tempWill += Math.floor(charData.introduction.class[0].level / 2);
               } else {
-                tempWill += Math.floor(PlayerCharacter.gub.introduction.class[0].level / 3);
+                tempWill += Math.floor(charData.introduction.class[0].level / 3);
               }
 
               tempWill += resistanceBonus;
@@ -427,10 +427,10 @@ export default {
     // OFFENSE
 
     speed() {
-      return '20';
+      return 20;
     },
     melee() {
-      const toggle = { ...this.$data.toggle };
+      const toggle = { ...this.toggle };
 
       const toggleKeys = Object.keys(toggle);
 
@@ -439,7 +439,7 @@ export default {
       if (toggle['two handing'].active) twoHanding = 1;
 
       let tempAttack = Math.max(this.abilityMods.dexterity, this.abilityMods.strength) + this.baseAtk
-        + PlayerCharacter.gub.introduction.sizeMod;
+        + this.character.introduction.sizeMod;
       let tempDamage = Math.floor(this.abilityMods.strength * (1 + (0.5 * twoHanding)));
 
       if (toggle['power attack'].active) {
@@ -471,8 +471,8 @@ export default {
     },
     specialAttacks() {
       return {
-        maxReservoir: Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2) + 3,
-        currResevoir: Math.floor(PlayerCharacter.gub.introduction.class[0].level / 2) + 3,
+        maxReservoir: Math.floor(this.character.introduction.class[0].level / 2) + 3,
+        currResevoir: Math.floor(this.character.introduction.class[0].level / 2) + 3,
       };
     },
 
@@ -484,10 +484,10 @@ export default {
     // STATISTICS
 
     abilityScores() {
-      const toggle = { ...this.$data.toggle };
+      const toggle = { ...this.toggle };
       const toggleKeys = Object.keys(toggle);
 
-      const tempAbilityScores: Record<string, number> = { ...PlayerCharacter.gub.statistics.abilityScore };
+      const tempAbilityScores: Record<string, number> = { ...this.character.statistics.abilityScore };
 
       const husk: Record<string, number> = {
         strength: 0,
@@ -528,7 +528,7 @@ export default {
     baseAtk() {
       let bab = 0;
 
-      const CharClasses = PlayerCharacter.gub.introduction.class;
+      const CharClasses = this.character.introduction.class;
 
       CharClasses.forEach((charClass) => {
         bab += Math.floor(charClass.level * charClass.bab);
@@ -537,15 +537,15 @@ export default {
       return bab;
     },
     cmb() {
-      return this.abilityMods.strength + this.baseAtk - PlayerCharacter.gub.introduction.sizeMod;
+      return this.abilityMods.strength + this.baseAtk - this.character.introduction.sizeMod;
     },
     cmd() {
       return 10 + this.abilityMods.dexterity
         + this.abilityMods.strength + this.baseAtk
-        - PlayerCharacter.gub.introduction.sizeMod;
+        - this.character.introduction.sizeMod;
     },
     skills() {
-      const skillPoints = { ...PlayerCharacter.gub.statistics.skills };
+      const skillPoints = { ...this.character.statistics.skills };
 
       const skills = {
         acrobatics: 0,
@@ -591,9 +591,9 @@ export default {
         skills.fly += (Math.log2(this.character.introduction.sizeMod) + 1) * 2;
         skills.stealth += (Math.log2(this.character.introduction.sizeMod) + 1) * 4;
       }
-      const classSkills = [...PlayerCharacter.gub.introduction.class[0].classSkills];
+      const classSkills = [...this.character.introduction.class[0].classSkills];
 
-      const knowledge = { ...PlayerCharacter.gub.statistics.skills.knowledge };
+      const knowledge = { ...this.character.statistics.skills.knowledge };
 
       const knowledgeKeys = Object.keys(knowledge);
 
@@ -854,7 +854,7 @@ export default {
 
   },
   created() {
-    PlayerCharacter.gub.offense.specialAttacks[0].points = [`${this.specialAttacks.currResevoir}/${this.specialAttacks.maxReservoir}`];
+    // this.character.offense.specialAttacks[0].points = [`${this.specialAttacks.currResevoir}/${this.specialAttacks.maxReservoir}`];
   },
 };
 </script>

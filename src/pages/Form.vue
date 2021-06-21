@@ -8,7 +8,8 @@
     >
 
       <div class="row">
-        <div v-for="x in gub" class="col-3 q-mx-md">
+        <div v-for="(x, xname) in gub" class="col-3 q-mx-md">
+          {{xname}}
           <root :sub-root="x"/>
         </div>
 

@@ -52,7 +52,6 @@
 
 <script lang="ts">
 import EssentialLink from 'components/EssentialLink.vue';
-import { LayoutStore } from 'src/store/LayoutStoreModule';
 
 const linksData = [
   {
