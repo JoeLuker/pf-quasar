@@ -15,7 +15,9 @@
         <div>
           <span id="race" class="capitalize" v-text="character.introduction.race"/>
           <span id="class" class="capitalize">
-            {{ formatList(character.introduction.class, ['archetype', 'name', 'level']) }}
+            {{ formatList(character.introduction.class[0], ['name']) }}
+
+            {{ formatList(character.introduction.class[0].gestalt, ['archetype', 'name', 'level']) }}
           </span>
         </div>
 
@@ -35,7 +37,10 @@
 
         <div>
           <b>Init </b><span id="initiative" v-text="formatBonus(introduction.initiative())"></span>
-          <b> Senses </b><span id="senses" v-text="formatList(character.introduction.senses)"></span>
+          <b> Senses </b>
+          <!--          <span id="senses" v-text="formatList(character.introduction.senses)"/>-->
+          <span id="senses">Perception {{ formatBonus(skills.skills.perception) }}</span>
+
         </div>
 
         <div id="aura" v-text="character.introduction.aura"></div>
@@ -48,20 +53,25 @@
         <hr>
 
         <div id="ac">
-          <b>AC</b> {{ defense.ac() }}
+          <b>AC</b> <span> {{ defense.ac() }}</span>
         </div>
         <div id="hp">
           <b>hp </b> <span>{{ defense.currHP() }}/{{ defense.maxHP() }}</span>
         </div>
         <div id="saving throws">
-          <b>Fort </b> <span id="fortitude" v-text="defense.savingThrows().fortitude()"/>
-          <b>, Ref </b> <span id="reflex" v-text="defense.savingThrows().reflex()"/>
-          <b>, Will </b> <span id="will" v-text="defense.savingThrows().will()"/>
+          <b>Fort </b> <span id="fortitude" v-text="defense.savingThrows().fort"/>
+          <b>, Ref </b> <span id="reflex" v-text="defense.savingThrows().ref"/>
+          <b>, Will </b> <span id="will" v-text="defense.savingThrows().will"/>
         </div>
         <div>
 
           <div id="defensive abilities" v-text="character.defense.defensiveAbilities"></div>
-          <div id="dr" v-text="character.defense.dr"></div>
+          <div id="dr">
+            <b>DR</b>
+            <span v-for="(drValue, drType, index) in character.defense.dr" :key="index">
+              {{ drValue }}/{{ drType }}
+            </span>
+          </div>
           <div id="immune" v-text="character.defense.immune"></div>
           <div id="resist" v-text="character.defense.resist"></div>
           <div id="sr" v-text="character.defense.sr"></div>
@@ -81,24 +91,86 @@
         <span>OFFENSE</span>
         <hr>
         <div id="speed">
-          <b>Spd</b> {{ character.offense.speed }} <span>ft., climb 30 ft.</span>
+          <b>Spd</b> <span> {{ character.offense.speed }} ft.</span>
         </div>
         <div v-show="melee" id="melee">
           <b>Melee</b> {{ melee }}
         </div>
-        <div id="ranged" v-text="ranged"></div>
+        <div id="ranged">
+          <b>Ranged</b> {{ ranged }}
+
+        </div>
         <div>
           <b>Space </b><span id="space"> {{ space }} ft.; </span>
           <b>Reach </b><span id="reach"> {{ reach }} ft.; </span>
         </div>
-        <b>Special Attacks </b>
-        <span v-for="(attack, index) in character.offense.specialAttacks" class="special-attacks capitalize">
+        <div id="specialAttacks">
+          <b>Special Attacks </b>
+          <span v-for="(attack, index) in character.offense.specialAttacks" class="special-attacks capitalize">
          {{ formatSpecial(attack) }}<span
-          v-if="index !== character.offense.specialAttacks.length - 1">, </span>
-</span>
-        <div id="spell-like abilities" v-text="character.offense.spellLikeAbilities"></div>
+            v-if="index !== character.offense.specialAttacks.length - 1">, </span>
+          </span>
+        </div>
+
+        <div id="spell-likeAbilities" v-text="character.offense.spellLikeAbilities"></div>
+
+        <div id="supernaturalAbilities">
+          <b @click="SupernaturalToggle = !SupernaturalToggle"> Supernatural Abilities </b>
+
+          <span v-show="!SupernaturalToggle">...</span>
+
+          <!--TODO-->
+          <span v-show="SupernaturalToggle">
+
+                      <span v-for="(attack, index) in character.offense.supernaturalAbilities"
+                            class="special-attacks capitalize">
+         {{ formatSpecial(attack) }}<span
+                        v-if="index !== character.offense.supernaturalAbilities.length - 1">, </span>
+          </span>
+
+          </span>
+        </div>
+
+        <div id="extraordinaryAbilities">
+          <b @click="ExtraordinaryToggle = !ExtraordinaryToggle"> Extraordinary Abilities </b>
+
+          <span v-show="!ExtraordinaryToggle">...</span>
+
+          <!--TODO-->
+          <span v-show="ExtraordinaryToggle">
+
+                      <span v-for="(attack, index) in character.offense.extraordinaryAbilities"
+                            class="special-attacks capitalize">
+         {{ formatSpecial(attack) }}<span
+                        v-if="index !== character.offense.extraordinaryAbilities.length - 1">, </span>
+          </span>
+
+          </span>
+        </div>
+
+        <!--        <div id="extraordinaryAbilities">-->
+        <!--          <b @click="ExtraordinaryToggle = !ExtraordinaryToggle"> Extraordinary Abilities </b>-->
+
+        <!--          <span v-show="!ExtraordinaryToggle">...</span>-->
+
+        <!--          <span v-show="ExtraordinaryToggle">-->
+
+        <!--            <span @click="abilityName = 'Misfortune'" v-if="classFeatures['extraordinaryAbilities']['Misfortune']">Misfortune</span>-->
+        <!--            <span @click="abilityName = 'Fortune'" v-if="classFeatures['extraordinaryAbilities']['Fortune']">, Fortune(2/day)</span>-->
+        <!--            <span @click="abilityName = 'Lore Master'" v-if="classFeatures['extraordinaryAbilities']['Lore Master']">, Lore Master (1/day)</span>-->
+
+        <!--          </span>-->
+        <!--        </div>-->
+
         <div id="spells" class="capitalize">
-          <SpellList v-bind:caster="character.offense.spells" @changeSpell="changeSpell"/>
+          <!--          TODO-->
+          <!--          <div v-for="(caster, index) in character.introduction.class" :key="index">-->
+          <!--            <SpellList v-bind:caster="character.introduction.class[index]" @changeSpell="changeSpell"/>-->
+          <!--          </div>-->
+          <div v-for="(caster, index) in character.introduction.class[0].gestalt" :key="index">
+            <SpellList v-bind:caster="character.introduction.class[0].gestalt[index]" @changeSpell="changeSpell"/>
+          </div>
+
         </div>
 
       </div>
@@ -138,17 +210,32 @@
           <b>CMD </b><span id="cmd" v-text="formatBonus(cmd)"/>;
         </div>
         <div>
-          <b>Feats </b> <span id="feats" class="capitalize" v-text="formatArray(character.statistics.feats)"/>
+          <b @click="featToggle = !featToggle">Feats </b>
+          <span v-if="featToggle" id="feats" class="capitalize" v-text="formatArray(character.statistics.feats)"/>
+          <span v-else>...</span>
         </div>
         <div>
           <b @click="skillToggle = !skillToggle"> Skills </b>
           <span v-if="skillToggle">
-          <span class="capitalize">
-            {{ formatSkills(skills) }}
-            <!--                        {{ skills }}-->
+            <span class="capitalize">
+                <span v-if="summarySkillToggle">
+                  <span class="capitalize">
+                    {{ formatSkills(skills.skills) }}
+                  </span>
+                </span>
+                <span v-if="!summarySkillToggle">
+                  <span class="capitalize">
+                    {{ formatSkills(skills.summarySkills) }}
+                  </span>
+                </span>
+              <div>
 
-        </span>
-        </span>
+                <i v-on: v-if="!summarySkillToggle" @click="summarySkillToggle = true"> Show More Skills...</i>
+                <i v-if="summarySkillToggle" @click="summarySkillToggle = false"> Show Fewer Skills...</i>
+
+                </div>
+          </span>
+          </span>
           <span v-if="!skillToggle">...</span>
         </div>
         <div id="languages" v-text="character.statistics.languages"></div>
@@ -156,13 +243,13 @@
 
       </div>
 
-      <div v-show="character.specialAbilities" id="special abilities">
+      <div v-show="character.specialAbilities.active" id="special abilities">
         <hr>
         <span>SPECIAL ABILITIES</span>
         <hr>
       </div>
 
-      <div v-show="character.gear" id="gear">
+      <div v-show="character.gear.active" id="gear">
         <hr>
         <span>GEAR</span>
         <hr>
@@ -185,11 +272,11 @@
     <div id="info">
 
       <div id="buttons">
-        <div v-for="(bonus, key) in toggle" v-bind:key="key" class="toggle"
+        <div v-for="(bonus, name, key) in toggle" v-bind:key="name" class="toggle capitalize"
              v-bind:style="{ 'background-color' : bgColor(bonus.duration)}">
           <q-toggle
             v-model="bonus.active"
-            :label="key"
+            :label="name"
             left-label
           />
         </div>
@@ -210,7 +297,7 @@
         <FullText
           v-bind:table="'spell'"
           v-bind:name="this.spellName"
-          @closeSpell="closeInfo"
+          @closeSpell="changeInfo"
         />
 
       </div>
@@ -236,24 +323,16 @@ export default {
     return {
 
       toggle: {
-        shield: {
-          type: 'shield',
-          active: true,
+        'shield of faith': {
+          bonusType: 'deflection',
+          active: false,
           duration: 1,
           bonus: {
             ac: 4,
           },
         },
-        'mage armor': {
-          type: 'armor',
-          active: true,
-          duration: 2,
-          bonus: {
-            ac: 4,
-          },
-        },
         'power attack': {
-          active: false,
+          active: true,
           duration: 3,
 
         },
@@ -261,17 +340,46 @@ export default {
           active: false,
           duration: 3,
         },
-        'enlarge person': {
+        holy: {
           active: false,
-          duration: 1,
+          duration: 3,
+        },
+        heroism: {
+          bonusType: 'morale',
+          duration: 2,
+          active: true,
           bonus: {
-            strength: 4,
-            dexterity: -2,
-            size: -1,
+            attackRolls: 2,
+            saves: 2,
+            skills: 2,
           },
         },
+        'archeologist\'s luck': {
+          bonusType: 'luck',
+          duration: 1,
+          active: true,
+          bonus: {
+            attackRolls: 4,
+            saves: 4,
+            skills: 4,
+            weaponDamage: 4,
+          },
+        },
+        Haste: {
+          bonusType: 'Dodge',
+          active: false,
+          duration: 2,
+          bonus: {
+            attackRolls: 1,
+            ref: 1,
+            ac: 1,
+          },
+
+        },
+
       },
       spellName: '',
+      summarySkillToggle: false,
       skillToggle: true,
       featToggle: false,
       acToggle: false,
@@ -308,7 +416,10 @@ export default {
         },
         initiative() {
           // TODO
-          return abilityMods.dexterity + 2 + 4 + 2 + 1;
+          // reactionary
+          // ioun stone
+          // Pranked
+          return abilityMods.dexterity + 2 + 1 - 4;
         },
         sizeModifier() {
           let tempSize = introData.sizeMod;
@@ -335,15 +446,45 @@ export default {
       return {
 
         ac() {
+          const abp = {
+            armorEnhancement: 2,
+            deflection: 2,
+            naturalArmorEnhancement: 2,
+          };
+
+          const abpKeys = Object.keys(abp);
+
           let tempAC = 10;
+
+          abpKeys.forEach((key) => {
+            tempAC += abp[key];
+          });
 
           tempAC += abilityMods.dexterity + intro.sizeModifier();
 
           const toggleKeys = Object.keys(toggle);
+          const gearKeys = Object.keys(charData.gear);
 
           toggleKeys.forEach((button) => {
             if ('bonus' in toggle[button] && 'ac' in toggle[button].bonus && toggle[button].active) {
-              tempAC += toggle[button].bonus.ac;
+              if ('bonusType' in toggle[button] && toggle[button].bonusType in abp) {
+                tempAC += Math.max(
+                  toggle[button].bonus.ac - abp[toggle[button].bonusType],
+                  abp[toggle[button].bonusType] - toggle[button].bonus.ac,
+                );
+              } else {
+                tempAC += toggle[button].bonus.ac;
+              }
+            }
+          });
+
+          gearKeys.forEach((item) => {
+            if (
+              typeof charData.gear[item] === 'object'
+              && 'bonus' in charData.gear[item]
+              && 'ac' in charData.gear[item].bonus
+            ) {
+              tempAC += charData.gear[item].bonus.ac;
             }
           });
 
@@ -388,72 +529,55 @@ export default {
           return this.maxHP();
         },
         savingThrows() {
-          const resistanceBonus = 1;
-
-          const fort = (charData.introduction.class[0].gestalt[0].saves.fort
-            || charData.introduction.class[0].gestalt[1].saves.fort);
-
-          const ref = (charData.introduction.class[0].gestalt[0].saves.ref
-            || charData.introduction.class[0].gestalt[1].saves.ref);
-
-          const will = (charData.introduction.class[0].gestalt[0].saves.will
-            || charData.introduction.class[0].gestalt[1].saves.will);
-
-          return {
-
-            fortitude() {
-              let tempFort = abilityMods.constitution;
-
-              if (fort) {
-                tempFort += 2;
-                tempFort += Math.floor(charData.introduction.class[0].level / 2);
-              } else {
-                tempFort += Math.floor(charData.introduction.class[0].level / 3);
-              }
-
-              tempFort += resistanceBonus;
-
-              return tempFort;
-            },
-            reflex() {
-              let tempRef = abilityMods.dexterity;
-
-              if (ref) {
-                tempRef += 2;
-                tempRef += Math.floor(charData.introduction.class[0].level / 2);
-              } else {
-                tempRef += Math.floor(charData.introduction.class[0].level / 3);
-              }
-              tempRef += resistanceBonus;
-
-              return tempRef;
-            },
-            will() {
-              let tempWill = abilityMods.wisdom;
-
-              if (will) {
-                tempWill += 2;
-                tempWill += Math.floor(charData.introduction.class[0].level / 2);
-              } else {
-                tempWill += Math.floor(charData.introduction.class[0].level / 3);
-              }
-
-              tempWill += resistanceBonus;
-
-              // TODO
-              // auspicoius tattoo
-              tempWill += 1;
-
-              return tempWill;
-            },
+          const totalSaves = {
+            fort: 0,
+            ref: 0,
+            will: 0,
           };
+
+          const resistanceBonus = 4;
+
+          let toggleBonus = 0;
+
+          const toggleKeys = Object.keys(toggle);
+
+          toggleKeys.forEach((button) => {
+            if ((typeof toggle[button].bonus !== 'undefined') && 'saves' in toggle[button].bonus && toggle[button].active) {
+              toggleBonus += toggle[button].bonus.saves;
+            }
+          });
+
+          toggleKeys.forEach((button) => {
+            if ((typeof toggle[button].bonus !== 'undefined') && 'ref' in toggle[button].bonus && toggle[button].active) {
+              totalSaves.ref += toggle[button].bonus.ref;
+            }
+          });
+
+          const saveKeys = Object.keys(charData.defense.saveAbilityScore);
+
+          saveKeys.forEach((save) => {
+            totalSaves[save] += abilityMods[charData.defense.saveAbilityScore[save]];
+            if (
+              charData.introduction.class[0].gestalt[0].saves[save]
+              || charData.introduction.class[0].gestalt[1].saves[save]
+            ) {
+              totalSaves[save] += 2;
+              totalSaves[save] += Math.floor(charData.introduction.class[0].level / 2);
+            } else {
+              totalSaves[save] += Math.floor(charData.introduction.class[0].level / 3);
+            }
+
+            totalSaves[save] += resistanceBonus + toggleBonus;
+          });
+          return totalSaves;
         },
+
       };
     },
     // OFFENSE
 
     speed() {
-      return 20;
+      return this.character.offense.speed;
     },
     melee() {
       const toggle = { ...this.toggle };
@@ -465,30 +589,87 @@ export default {
       if (toggle['two handing'].active) twoHanding = 1;
 
       let tempAttack = Math.max(this.abilityMods.dexterity, this.abilityMods.strength) + this.baseAtk
-        + this.character.introduction.sizeMod;
+            + this.character.introduction.sizeMod;
       let tempDamage = Math.floor(this.abilityMods.strength * (1 + (0.5 * twoHanding)));
+
+      let tempDexDamage = Math.floor(this.abilityMods.dexterity);
 
       if (toggle['power attack'].active) {
         tempAttack += -(Math.floor(this.baseAtk / 4) + 1);
         tempDamage += (Math.floor(this.baseAtk / 4) + 1) * (2 + twoHanding);
+        tempDexDamage += (Math.floor(this.baseAtk / 4) + 1) * 2;
       }
 
       const dieSizeMod = this.introduction.sizeModifier();
 
+      let holy = '';
+
+      if (toggle.holy.active) {
+        holy = ' plus 2d6';
+      } else {
+        holy = '';
+      }
+
+      toggleKeys.forEach((button) => {
+        if ((typeof toggle[button].bonus !== 'undefined') && 'weaponDamage' in toggle[button].bonus && toggle[button].active) {
+          tempDexDamage += toggle[button].bonus.weaponDamage;
+          tempDamage += toggle[button].bonus.weaponDamage;
+        }
+        if ((typeof toggle[button].bonus !== 'undefined') && 'attackRolls' in toggle[button].bonus && toggle[button].active) {
+          tempAttack += toggle[button].bonus.attackRolls;
+        }
+      });
+
       const option = {
-        name: 'Small Claw',
-        attack: tempAttack,
+        name: 'Stella\'s Holy Cutlass',
+        attack: tempAttack + 2,
         dieCount: 1,
-        dieSize: 4 - dieSizeMod,
-        damage: tempDamage,
+        dieSize: 6 - dieSizeMod,
+        damage: tempDexDamage + 2,
+        critRange: 15,
+      };
+
+      return `${option.name} ${this.formatBonus(option.attack)} \
+      (${option.dieCount}d${option.dieSize}${this.formatBonus(option.damage)}/${option.critRange}-20${holy})`;
+    },
+    ranged() {
+      const toggle = { ...this.toggle };
+
+      const toggleKeys = Object.keys(toggle);
+
+      let tempAttack = Math.max(this.abilityMods.dexterity, this.abilityMods.strength) + this.baseAtk
+            + this.character.introduction.sizeMod;
+      let tempDamage = this.abilityMods.strength;
+
+      if (toggle['power attack'].active) {
+        tempAttack += -(Math.floor(this.baseAtk / 4) + 1);
+        tempDamage += (Math.floor(this.baseAtk / 4) + 1) * 2;
+      }
+
+      const dieSizeMod = this.introduction.sizeModifier();
+
+      toggleKeys.forEach((button) => {
+        if ((typeof toggle[button].bonus !== 'undefined') && 'weaponDamage' in toggle[button].bonus && toggle[button].active) {
+          tempDamage += toggle[button].bonus.weaponDamage;
+        }
+        if ((typeof toggle[button].bonus !== 'undefined') && 'attackRolls' in toggle[button].bonus && toggle[button].active) {
+          tempAttack += toggle[button].bonus.attackRolls;
+        }
+      });
+
+      const option = {
+        name: 'Furies\' Flaming Burst Longbow',
+        attack: tempAttack + 2,
+        dieCount: 1,
+        dieSize: 8 - dieSizeMod,
+        damage: tempDamage + 2,
+        critRange: 20,
       };
 
       return `${option.name} ${this.formatBonus(option.attack)} \
       (${option.dieCount}d${option.dieSize}${this.formatBonus(option.damage)})`;
     },
-    ranged() {
-      return '';
-    },
+
     space() {
       return '5';
     },
@@ -533,11 +714,6 @@ export default {
         });
       });
 
-      if (toggle['enlarge person'].active) {
-        husk.strength += 4;
-        husk.dexterity += -2;
-      }
-
       return husk;
     },
     abilityMods(): Record<string, unknown> {
@@ -573,7 +749,21 @@ export default {
       return bab;
     },
     cmb() {
-      return this.abilityMods.strength + this.baseAtk - this.character.introduction.sizeMod;
+      const toggle = { ...this.toggle };
+
+      const toggleKeys = Object.keys(toggle);
+
+      let tempCMB = this.abilityMods.strength + this.baseAtk - this.character.introduction.sizeMod;
+
+      toggleKeys.forEach((button) => {
+        if ((typeof toggle[button].bonus !== 'undefined')
+          && 'attackRolls' in toggle[button].bonus
+          && toggle[button].active) {
+          tempCMB += toggle[button].bonus.attackRolls;
+        }
+      });
+
+      return tempCMB;
     },
     cmd() {
       return 10 + this.abilityMods.dexterity
@@ -581,7 +771,11 @@ export default {
         - this.character.introduction.sizeMod;
     },
     skills() {
-      const skillPoints = { ...this.character.statistics.skills };
+      const toggle = { ...this.toggle };
+
+      const toggleKeys = Object.keys(toggle);
+
+      const skillRanks = { ...this.character.statistics.skills };
 
       const skills = {
         acrobatics: 0,
@@ -637,30 +831,57 @@ export default {
 
       const keys = Object.keys(skills);
 
+      const summarySkills = {
+        knowledge: {},
+      };
+
       keys.forEach((skillKey) => {
-        if (skillKey === 'knowledge') {
-          knowledgeKeys.forEach((knowledgeSkillKey) => {
-            skills.knowledge[knowledgeSkillKey] += skillPoints.knowledge[knowledgeSkillKey].points;
-            skills.knowledge[knowledgeSkillKey] += this.abilityMods[skillPoints.knowledge[knowledgeSkillKey].ability];
-          });
-        } else {
-          skills[skillKey] += skillPoints[skillKey].points;
-          skills[skillKey] += this.abilityMods[skillPoints[skillKey].ability];
-          skills[skillKey] += skillPoints[skillKey].modifier.reduce((accumulator, cur) => accumulator + cur.bonus, 0);
-        }
         classSkills.forEach((classSkill) => {
-          if (classSkill === skillKey && skillPoints[skillKey].points >= 1) skills[skillKey] += 3;
+          if (classSkill === skillKey && skillRanks[skillKey].ranks >= 1) skills[skillKey] += 3;
           if (classSkill === skillKey && classSkill === 'knowledge') {
             knowledgeKeys.forEach((knowledgeSkillKey) => {
-              if (skillPoints.knowledge[knowledgeSkillKey].points >= 1) {
+              if (skillRanks.knowledge[knowledgeSkillKey].ranks >= 1) {
                 skills.knowledge[knowledgeSkillKey] += 3;
               }
             });
           }
         });
+        if (skillKey === 'knowledge') {
+          knowledgeKeys.forEach((knowledgeSkillKey) => {
+            skills.knowledge[knowledgeSkillKey] += skillRanks.knowledge[knowledgeSkillKey].ranks;
+            skills.knowledge[knowledgeSkillKey] += this.abilityMods[skillRanks.knowledge[knowledgeSkillKey].ability];
+            toggleKeys.forEach((button) => {
+              if ((typeof toggle[button].bonus !== 'undefined') && 'skills' in toggle[button].bonus && toggle[button].active) {
+                skills.knowledge[knowledgeSkillKey] += toggle[button].bonus.skills;
+              }
+            });
+            if (this.character.specialAbilities.abilities.includes('Bardic Knowledge')) {
+              skills.knowledge[knowledgeSkillKey] += this.introduction.level();
+            }
+            if (skillRanks.knowledge[knowledgeSkillKey].ranks >= 1 || this.character.specialAbilities.abilities.includes('Bardic Knowledge')) {
+              summarySkills.knowledge[knowledgeSkillKey] = skills.knowledge[knowledgeSkillKey];
+            }
+          });
+        } else {
+          skills[skillKey] += skillRanks[skillKey].ranks;
+          skills[skillKey] += this.abilityMods[skillRanks[skillKey].ability];
+          skills[skillKey] += skillRanks[skillKey].modifier.reduce((accumulator, cur) => accumulator + cur.bonus, 0);
+          toggleKeys.forEach((button) => {
+            if ((typeof toggle[button].bonus !== 'undefined') && 'skills' in toggle[button].bonus && toggle[button].active) {
+              skills[skillKey] += toggle[button].bonus.skills;
+            }
+          });
+
+          if (skillRanks[skillKey].ranks >= 1) {
+            summarySkills[skillKey] = skills[skillKey];
+          }
+        }
       });
 
-      return skills;
+      return {
+        skills,
+        summarySkills,
+      };
     },
 
     // SPECIAL ABILITIES
@@ -823,7 +1044,11 @@ export default {
               list += myObj[keys[index]];
             }
             if (index === size - 1) {
-              // list += ')';
+              if (typeof myObj.usesPerDay !== 'undefined') {
+                list += '/day';
+              }
+
+              list += ')';
             }
 
             if (index !== size - 1) list += '';
@@ -841,9 +1066,14 @@ export default {
 
       const arrSize = keys.length;
 
+      let comparer = 0;
+
       for (let index = 0; index < arrSize; index += 1) {
         if (keys[index] === 'knowledge') {
           list += `${keys[index]} (${this.formatSkills(myObj[keys[index]])})`;
+          comparer += 1;
+        } else if (myObj.name === 'knowledge' && myObj[keys[index]] !== myObj[keys[0]]) {
+          comparer += 1;
         } else {
           list += `${keys[index]} `;
           list += this.formatBonus(myObj[keys[index]]);
@@ -851,6 +1081,9 @@ export default {
         if (index !== arrSize - 1) list += ', ';
       }
 
+      if (comparer === 0) {
+        return this.formatBonus(myObj[keys[0]]);
+      }
       return list;
     },
     formatArray(myArray) {
@@ -865,7 +1098,7 @@ export default {
     },
 
     closeInfo() {
-      this.spellName = null;
+      this.spellName = '';
     },
 
     changeSpell(value) {
@@ -909,7 +1142,7 @@ export default {
   background-repeat: no-repeat;
 
   background-size: 100vmax;
-  background-position: 50% 50%;
+  background-position: 50% 30%;
   background-attachment: fixed;
   justify-content: space-between;
 
@@ -966,6 +1199,10 @@ p {
   padding: 1vmin;
   align-items: center;
 
+}
+
+.toggle {
+  font-size: unset;
 }
 
 @media only screen and (max-width: 1100px) {

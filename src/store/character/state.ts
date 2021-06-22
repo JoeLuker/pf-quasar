@@ -3047,6 +3047,7 @@ function state(): ExampleStateInterface {
               {
                 archetype: ['archaeologist'],
                 name: 'bard',
+                level: 11,
                 hitDie: 8,
                 bab: 3 / 4,
                 skillRanks: 2,
@@ -3083,67 +3084,91 @@ function state(): ExampleStateInterface {
                   ref: true,
                   will: true,
                 },
+                casterLevel: 11,
+                casting: 'spontaneous',
                 spells: {
-                  casterLevel: 11,
-                  casting: 'spontaneous',
-                  spells: {
-                    '2nd': {
-                      slots: 3,
-                      prepared: [
-                        'false life',
-                        'eagle\'s splendor',
-                      ],
-                    },
-                    '1st': {
-                      slots: 5,
-                      prepared: [
-                        'enlarge person',
-                        'face of the devourer',
-                        'mage armor',
-                      ],
-                    },
-                    Cantrips: {
-                      prepared: [
-                        'read magic',
-                        'detect magic',
-                        'mage hand',
-                        'light',
-                        'acid splash',
-                        'ghost sound',
-                      ],
-                    },
 
+                  '4th': {
+                    slots: 3,
+                    prepared: [
+                      'Invisibility, Greater',
+                      'Dimension Door',
+                    ],
                   },
+                  '3rd': {
+                    slots: 6,
+                    prepared: [
+                      'Haste',
+                      'Glibness',
+                      'Major Image',
+                      'Charm monster',
+                      'Confusion',
+                      'Good Hope',
+                    ],
+                  },
+                  '2nd': {
+                    slots: 6,
+                    prepared: [
+                      'Heroism',
+                      'Gallant Inspiration',
+                      'Blur',
+                      'Invisibility',
+                      'Heroic Fortune',
+                      'Share Memory',
+                      'Detect Thoughts',
+                      'Mirror Image',
+                    ],
+                  },
+                  '1st': {
+                    slots: 7,
+                    prepared: [
+                      'Shadow Trap',
+                      'Charm Person',
+                      'Fabricate Disguise',
+                      'Saving Finale',
+                      'Hideous Laughter',
+                      'Grease',
+                      'Heightened Awareness',
+                      'Feather Fall',
+                      'Timely Inspiration',
+                    ],
+                  },
+                  Cantrips: {
+                    prepared: [
+                      'Dancing Lights',
+                      'Detect Magic',
+                      'Prestidigitation',
+                      'Daze',
+                      'Open/Close',
+                      'Mage Hand',
+                      'Lullaby',
+                      'Message',
+                      'Mending',
+                    ],
+                  },
+
                 },
 
               },
               {
                 archetype: ['dual-cursed'],
                 name: 'oracle',
+                level: 11,
                 hitDie: 8,
                 bab: 3 / 4,
                 first: true,
                 skillRanks: 2,
                 classSkills: [
-                  'Acrobatics',
-                  'Appraise',
-                  'Bluff',
-                  'Climb',
                   'Craft',
                   'Diplomacy',
-                  'Disguise',
-                  'Escape Artist',
-                  'Intimidate',
-                  'Knowledge',
-                  'Linguistics',
-                  'Perception',
-                  'Perform',
+                  'Heal',
+                  // TODO
+                  'Knowledge (history)',
+                  'Knowledge (planes)',
+                  'Knowledge (religion)',
                   'Profession',
                   'Sense Motive',
-                  'Sleight of Hand',
                   'Spellcraft',
-                  'Stealth',
-                  'Use Magic Device',
                 ],
                 favored: {
                   hp: 0,
@@ -3157,38 +3182,91 @@ function state(): ExampleStateInterface {
                   ref: false,
                   will: true,
                 },
+                casterLevel: 11,
+                casting: 'spontaneous',
                 spells: {
-                  casterLevel: 11,
-                  casting: 'spontaneous',
-                  spells: {
-                    '2nd': {
-                      slots: 3,
-                      prepared: [
-                        'false life',
-                        'eagle\'s splendor',
-                      ],
-                    },
-                    '1st': {
-                      slots: 5,
-                      prepared: [
-                        'enlarge person',
-                        'face of the devourer',
-                        'mage armor',
-                      ],
-                    },
-                    Cantrips: {
-                      prepared: [
-                        'read magic',
-                        'detect magic',
-                        'mage hand',
-                        'light',
-                        'acid splash',
-                        'ghost sound',
-                      ],
-                    },
 
+                  '5th': {
+                    slots: 5,
+                    prepared: [
+                      'Slay Living',
+                      'Plane Shift',
+                    ],
                   },
+                  '4th': {
+                    slots: 7,
+                    prepared: [
+                      'Sending',
+                      'Dimensional Anchor',
+                      'Dismissal',
+                      'Imbue with Spell Ability',
+                      'Wall of Fire',
+                      'Freedom of Movement',
+                    ],
+                  },
+                  '3rd': {
+                    slots: 8,
+                    prepared: [
+                      'Dispel Magic',
+                      'Stunning Barrier',
+                      'Stone Shape',
+                      'Second Wind',
+                      'Shield of Wings',
+                      'Beacon of Luck',
+                    ],
+                  },
+                  '2nd': {
+                    slots: 8,
+                    prepared: [
+                      'Hold person',
+                      'Silence',
+                      'Resist Energy',
+                      'Zone of Truth',
+                      'Ironskin',
+                      'Weapon of Awe',
+                      'Scorching Ray',
+                      'Detect Magic, Greater',
+                    ],
+                  },
+                  '1st': {
+                    slots: 8,
+                    prepared: [
+                      'Shield of Faith',
+                      'Moment of Greatness',
+                      'Murderous Command',
+                      'Protection from Law',
+                      'Lucky Number',
+                      'Fallback Strategy',
+                      'Sure casting',
+                      'Burning Hands',
+                    ],
+                  },
+                  Orisons: {
+                    prepared: [
+                      'Create Water',
+                      'Read Magic',
+                      'Stabilize',
+                      'Enhance Diplomacy',
+                      'Purify Food and Drink',
+                      'Mending',
+                      'Vigor',
+                      'Spark',
+                    ],
+                  },
+
                 },
+                mysterySpells: [
+                  {
+                    name: 'Dual-Cursed',
+                    '1st': 'ill omen',
+                    '2nd': 'oracle\'s burden',
+                    '3rd': 'Bestow Curse',
+                  }, {
+                    name: 'Time',
+                    '4th': 'threefold aspect',
+                    '5th': 'permanency',
+                  },
+                ],
 
               },
             ],
@@ -3204,27 +3282,71 @@ function state(): ExampleStateInterface {
       },
       defense: {
         defensiveAbilities: '',
-        dr: '',
+        dr: {
+          '—': 2,
+        },
         resist: '',
         sr: '',
         weaknesses: ['cold'],
+        saveAbilityScore: {
+          fort: 'constitution',
+          ref: 'charisma',
+          will: 'wisdom',
+        },
       },
       offense: {
-        speed: 20,
+        speed: 30,
         specialAttacks: [
           {
-            name: 'Arcane Reservoir',
-            points: 0,
+            name: 'Cosmic Gate',
+            usesPerDay: 1,
           },
           {
-            name: 'Arcanist Exploits',
-            exploits: [
-              'item crafting',
-              'feral shifting',
-            ],
+            name: 'Defiant Luck',
+            usesPerDay: 5,
+          },
+          {
+            name: 'Inexplicable Luck',
+            usesPerDay: 5,
+          },
+          {
+            name: 'Black Cat',
+            usesPerDay: 5,
+          },
+          {
+            name: 'Hero Points',
+            points: 5,
           },
         ],
         spellLikeAbilities: '',
+        supernaturalAbilities: [
+          {
+            name: 'Erase From Time',
+            usesPerDay: 2,
+          },
+          {
+            name: 'Rewind Time',
+            usesPerDay: 2,
+          },
+          {
+            name: 'Time Sight',
+            spell: 'true seeing',
+          },
+        ],
+        extraordinaryAbilities: [
+          {
+            name: 'Misfortune',
+            special: '1/creature',
+          },
+          {
+            name: 'Fortune',
+            usesPerDay: 2,
+          },
+          {
+            name: 'Time Sight',
+            usesPerDay: 1,
+          },
+        ],
       },
       tactics: '',
       statistics: {
@@ -3278,191 +3400,192 @@ function state(): ExampleStateInterface {
         ],
         skills: {
           acrobatics: {
-            points: 4,
+            ranks: 0,
             ability: 'dexterity',
-            modifier: [{
-              name: 'racial',
-              bonus: 2,
-            }],
+            modifier: [],
           },
           appraise: {
-            points: 0,
+            ranks: 0,
             ability: 'intelligence',
             modifier: [],
           },
           bluff: {
-            points: 0,
+            ranks: 11,
             ability: 'charisma',
             modifier: [],
           },
           climb: {
-            points: 0,
+            ranks: 1,
             ability: 'strength',
             modifier: [],
           },
           craft: {
-            points: 0,
+            ranks: 0,
             ability: 'intelligence',
             modifier: [],
           },
           diplomacy: {
-            points: 0,
+            ranks: 11,
             ability: 'charisma',
             modifier: [],
           },
           'disable device': {
-            points: 4,
+            ranks: 6,
             ability: 'dexterity',
-            modifier: [],
+            modifier: [
+              {
+                name: 'Clever Explorer',
+                bonus: 5,
+              },
+              {
+                name: 'Mwk Thieves Tools',
+                bonus: 4,
+              },
+
+            ],
           },
           disguise: {
-            points: 0,
+            ranks: 7,
             ability: 'charisma',
             modifier: [],
           },
           'escape artist': {
-            points: 4,
+            ranks: 0,
             ability: 'dexterity',
             modifier: [],
           },
           fly: {
-            points: 0,
+            ranks: 3,
             ability: 'dexterity',
             modifier: [],
           },
           'handle animal': {
-            points: 0,
+            ranks: 0,
             ability: 'charisma',
             modifier: [],
           },
           heal: {
-            points: 0,
+            ranks: 0,
             ability: 'wisdom',
             modifier: [],
           },
           intimidate: {
-            points: 0,
+            ranks: 7,
             ability: 'charisma',
             modifier: [],
           },
           knowledge: {
             arcana: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             dungeoneering: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             engineering: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             geography: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             history: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             local: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             nature: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             nobility: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             planes: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
             religion: {
-              points: 1,
+              ranks: 0,
               ability: 'intelligence',
               modifier: [],
             },
           },
           linguistics: {
-            points: 0,
+            ranks: 1,
             ability: 'intelligence',
             modifier: [],
           },
           perception: {
-            points: 0,
+            ranks: 11,
             ability: 'wisdom',
             modifier: [{
-              name: 'oblivious',
-              bonus: -2,
+              name: 'Clever Explorer',
+              bonus: 5,
             }],
           },
           perform: {
-            points: 0,
+            ranks: 0,
             ability: 'charisma',
             modifier: [],
           },
           profession: {
-            points: 0,
+            ranks: 0,
             ability: 'wisdom',
             modifier: [],
           },
           ride: {
-            points: 0,
+            ranks: 7,
             ability: 'dexterity',
             modifier: [],
           },
           'sense motive': {
-            points: 0,
+            ranks: 7,
             ability: 'wisdom',
-            modifier: [{
-              name: 'oblivious',
-              bonus: -2,
-            }],
+            modifier: [],
           },
           'slight of hand': {
-            points: 4,
+            ranks: 7,
             ability: 'dexterity',
             modifier: [],
           },
           spellcraft: {
-            points: 4,
+            ranks: 7,
             ability: 'intelligence',
             modifier: [],
           },
           stealth: {
-            points: 4,
+            ranks: 11,
             ability: 'dexterity',
-            modifier: [{
-              name: 'racial',
-              bonus: 2,
-            }],
+            modifier: [],
           },
           survival: {
-            points: 0,
+            ranks: 0,
             ability: 'wisdom',
             modifier: [],
           },
           swim: {
-            points: 0,
+            ranks: 0,
             ability: 'strength',
             modifier: [],
           },
           'use magic device': {
-            points: 4,
+            ranks: 2,
             ability: 'charisma',
             modifier: [],
           },
@@ -3470,8 +3593,20 @@ function state(): ExampleStateInterface {
         languages: '',
         specialQualities: '',
       },
-      specialAbilities: '',
-      gear: '',
+      specialAbilities: {
+        active: false,
+        abilities: ['Bardic Knowledge'],
+      },
+      gear: {
+        active: false,
+
+        'Adamantite Celestial Armor': {
+          bonusType: 'armor',
+          bonus: {
+            ac: 6,
+          },
+        },
+      },
       ecology: '',
       // ecology: {
       //   environment: '',

@@ -73,6 +73,12 @@ const linksData = [
     link: '/#/Immogen',
   },
   {
+    title: 'Immogen (old sheet)',
+    caption: 'Let\'s add +24 to this roll...',
+    icon: 'hourglass_empty',
+    link: '/#/OldImmogen',
+  },
+  {
     title: 'Charlotte',
     caption: 'I\'m trying to be a white mage here',
     icon: 'flare',

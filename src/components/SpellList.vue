@@ -1,34 +1,41 @@
 <template>
 
-  <div>
+  <div v-show="caster.spells">
 
-    <b v-on:click="toggleKey = !toggleKey">{{ caster.class }} Spells
-      <span v-if="caster.casting === 'spontanious' ">Known</span>
+    <b v-on:click="toggleKey = !toggleKey">{{ caster.name }} Spells
+      <span v-if="caster.casting === 'spontaneous' ">Known</span>
       <span v-if="caster.casting === 'prepared' ">Prepared</span>
       (CL {{ caster.casterLevel }})<span v-show="!toggleKey"> ...</span></b>
 
     <div class="spells" v-for="(spellList, level) in caster.spells"
          v-bind:key="level">
 
-      <div v-show="toggleKey"><b>{{ level }}
-        <span v-if="level !== 'Cantrips' && level !== 'Orisons'"> ({{ spellList.slots }}/day)</span>
-      </b>—<i
-        v-for="(spell, index) in spellList.prepared"
-        v-bind:key="index"><span v-on:click="$emit('changeSpell', spell)">{{ spell }}</span><span
-        v-if="index !== spellList.prepared.length - 1">, </span>
-      </i>
+      <div v-show="toggleKey">
+        <b>
+          {{ level }}
+          <span v-if="level !== 'Cantrips' && level !== 'Orisons'"> ({{ spellList.slots }}/day)</span>
+        </b>
+        <span>—</span>
+        <i v-for="(spell, index) in spellList.prepared" v-bind:key="index">
+          <span v-on:click="$emit('changeSpell', spell)">{{ spell }}</span>
+          <span v-if="index !== spellList.prepared.length - 1">, </span>
+        </i>
 
         <span v-if="typeof caster.patronSpells !== 'undefined'">
         <i class="patron" v-show="caster.patronSpells[level]"> :
-          <span v-on:click="$emit('changeSpell', caster.patronSpells[level])">{{
-              caster.patronSpells[level]
-            }}</span></i>
+          <span v-on:click="$emit('changeSpell', caster.patronSpells[level])">
+            {{ caster.patronSpells[level] }}
+          </span>
+        </i>
         </span>
         <span v-if="typeof caster.mysterySpells !== 'undefined'">
-        <i class="mystery" v-show="caster.mysterySpells[level]"> :
-          <span v-on:click="$emit('changeSpell', caster.mysterySpells[level])">{{
-              caster.mysterySpells[level]
-            }}</span></i>
+        <i v-for="(mystery, index) in caster.mysterySpells" class="mystery"
+           v-show="mystery[level]"
+           :key="index"> :
+          <span v-on:click="$emit('changeSpell', mystery[level])">
+            {{ mystery[level] }}
+          </span>
+        </i>
         </span>
       </div>
 
@@ -64,7 +71,7 @@ export default {
 }
 
 .mystery {
-  color: #ffaa00;
+  color: #cdaeff;
 }
 
 </style>
