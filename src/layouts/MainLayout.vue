@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh lpR fFf">
+  <q-layout view="lhh lpR fFf">
     <q-header elevated>
       <q-toolbar>
         <q-btn
@@ -20,10 +20,10 @@
         <div>Quasar v{{ $q.version }}</div>
 
       </q-toolbar>
-      <q-tabs align="left">
-        <q-route-tab to="/" label="Home" />
-        <q-route-tab to="/Search" label="Search" />
-      </q-tabs>
+<!--      <q-tabs align="left">-->
+<!--        <q-route-tab to="/" label="Home" />-->
+<!--        <q-route-tab to="/Search" label="Search" />-->
+<!--      </q-tabs>-->
     </q-header>
 
     <q-drawer v-model="left" side="left" behavior="mobile" elevated>
@@ -107,6 +107,12 @@ const linksData = [
     caption: 'build a character!',
     icon: 'add',
     link: '/#/Form',
+  },
+  {
+    title: 'Penelope',
+    caption: 'She\'s a character!',
+    icon: 'add',
+    link: '/#/Penelope',
   },
 ];
 

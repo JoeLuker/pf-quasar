@@ -313,7 +313,7 @@ import FullText from 'src/components/FullText';
 import Info from 'src/components/Info';
 
 export default {
-  name: 'Sheet',
+  name: 'BetaSheet',
   components: {
     SpellList,
     FullText,

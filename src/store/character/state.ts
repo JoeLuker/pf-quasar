@@ -4275,6 +4275,391 @@ function state(): ExampleStateInterface {
       // },
       miscellaneous: '',
     },
+    penelope: {
+      introduction: {
+        name: 'default',
+        race: 'human',
+        class: [{
+          name: 'alchemist',
+          archetype: 'mindchemist',
+          level: 14,
+          hitDie: 8,
+          bab: 2 / 3,
+          first: true,
+          skillRanks: 4,
+          classSkills: ['craft', 'diplomacy', 'heal', 'history', 'planes', 'religion', 'profession', 'sense motive', 'spellcraft'],
+          favored: {
+            hp: 9,
+            skill: 0,
+            race: {
+              drow: 0,
+            },
+          },
+          saves: {
+            fort: false,
+            ref: false,
+            will: true,
+          },
+        }],
+        alignment: 'CN',
+        size: 'medium',
+        sizeMod: 0,
+        type: 'humanoid',
+        subtype: ['elf'],
+        senses: ['Dark vision'],
+        aura: '',
+      },
+      defense: {
+        defensiveAbilities: '',
+        dr: '',
+        immune: '',
+        resist: '',
+        sr: '',
+        weaknesses: [''],
+      },
+      offense: {
+        speed: 35,
+        specialAttacks: [
+
+          { name: 'Cloak of Darkness' },
+          { name: 'Gift of Madness' },
+          { name: 'Interstellar Void' },
+          { name: 'Oracle Curse' },
+          { name: 'Wings of Darkness' },
+
+        ],
+        spellLikeAbilities: '',
+        spells: {
+          class: 'arcanist',
+          casterLevel: 4,
+          casting: 'prepared',
+          spells: {
+            '2nd': {
+              slots: 3,
+              prepared: [
+                'false life',
+                'eagle\'s splendor',
+              ],
+            },
+            '1st': {
+              slots: 5,
+              prepared: [
+                'enlarge person',
+                'face of the devourer',
+                'mage armor',
+              ],
+            },
+            Cantrips: {
+              prepared: [
+                'read magic',
+                'detect magic',
+                'mage hand',
+                'light',
+                'acid splash',
+                'ghost sound',
+              ],
+            },
+
+          },
+        },
+
+        spells: {
+          class: 'oracle',
+          casterLevel: 9,
+          casting: 'spontanious',
+          spells: {
+            '4th': {
+              slots: 5,
+              prepared: [
+                'Aura of Doom',
+                'Mark of the Reptile God',
+              ],
+            },
+            '3rd': {
+              slots: 8,
+              prepared: [
+                'Inflict Serious Wounds',
+                'Cure Serious Wounds',
+                'Dispel Magic',
+                'Blindness/Deafness',
+                'Bestow Curse',
+              ],
+            },
+            '2nd': {
+              slots: 8,
+              prepared: [
+                'Admonishing Ray',
+                'Cure Mod Wounds',
+                'Disfiguring Touch',
+                'Ghoul Touch',
+                'Hold Person',
+                'Create Pit',
+              ],
+            },
+            '1st': {
+              slots: 8,
+              prepared: [
+                'Burning Disarm',
+                'Cure Light Wounds',
+                'Death Watch',
+                'Murderous Command',
+                'Ray of Sickening',
+                'Shield of Faith',
+                'Bane',
+              ],
+            },
+            Orisons: {
+              prepared: [
+                'Bleed',
+                'Detect Magic',
+                'Read Magic',
+                'Light',
+                'Guidance',
+                'Stabilize',
+                '???',
+                '???',
+              ],
+            },
+          },
+          patronSpells: {},
+          mysterySpells: {
+            name: 'Dark Tapestry',
+            '1st': 'Entropic Shield',
+            '2nd': 'Dust of Twilight',
+            '3rd': 'Tongues',
+            '4th': 'Black Tentacles',
+          },
+        },
+      },
+      tactics: '',
+      //   beforeCombat: 'Ulurin is assumed to have Mage Armor on at all times',
+      //   duringCombat: 'Ulurin spams his Counterspell exploit as much as fuckin\' possible',
+      //   morale: 'Ulurin has died once for his comrades. '
+      //     + 'Despite his general demeanor he would not hesistate to do it again.',
+      // },
+      statistics: {
+        abilityScore: {
+          strength: {
+            pointBuy: 14,
+          },
+          dexterity: {
+            pointBuy: 12,
+            racial: 2,
+          },
+          constitution: {
+            pointBuy: 14,
+            racial: -2,
+          },
+          intelligence: {
+            pointBuy: 10,
+            racial: 2,
+          },
+          wisdom: {
+            pointBuy: 10,
+          },
+          charisma: {
+            pointBuy: 17,
+            levelUp: 2,
+            enhancement: 6,
+
+          },
+        },
+        skills: {
+          acrobatics: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          appraise: {
+            points: 0,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          bluff: {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          climb: {
+            points: 0,
+            ability: 'strength',
+            modifier: [],
+          },
+          craft: {
+            points: 0,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          diplomacy: {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          'disable device': {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          disguise: {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          'escape artist': {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          fly: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          'handle animal': {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          heal: {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          intimidate: {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          knowledge: {
+            arcana: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            dungeoneering: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            engineering: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            geography: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            history: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            local: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            nature: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            nobility: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            planes: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            religion: {
+              points: 0,
+              ability: 'intelligence',
+              modifier: [],
+            },
+          },
+          linguistics: {
+            points: 0,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          perception: {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          perform: {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          profession: {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          ride: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          'sense motive': {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          'slight of hand': {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          spellcraft: {
+            points: 0,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          stealth: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          survival: {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          swim: {
+            points: 0,
+            ability: 'strength',
+            modifier: [],
+          },
+          'use magic device': {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+
+        },
+
+        feats: [''],
+        languages: '',
+        specialQualities: '',
+      },
+      specialAbilities: '',
+      gear: '',
+      ecology: '',
+      // ecology: {
+      //   environment: '',
+      //   organization: '',
+      //   treasure: '',
+      // },
+      miscellaneous: '',
+    },
+
     default: {
       introduction: {
         name: 'default',
