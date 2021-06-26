@@ -16,6 +16,7 @@
           <span id="race" class="capitalize" v-text="character.introduction.race"/>
           <span id="class" class="capitalize">
             {{ formatList(character.introduction.class, ['archetype', 'name', 'level']) }}
+
           </span>
         </div>
 

@@ -3,20 +3,16 @@ import Vuex, { Store } from 'vuex';
 
 import character from './character';
 
+export let storeInstance: Store<unknown>;
+
 export default store(({ Vue }) => {
   Vue.use(Vuex);
-  // eslint-disable-next-line no-shadow
   const store = new Store<unknown>({
     modules: {
       character,
     },
-    strict: process.env.DEV,
+    strict: !!process.env.DEBUGGING,
   });
-  if (process.env.DEV && module.hot) {
-    module.hot.accept(['./character'], () => {
-      const newCharacter = require('./character').default;
-      Store.hotUpdate({ modules: { character: newCharacter } });
-    });
-  }
+  storeInstance = store;
   return store;
 });

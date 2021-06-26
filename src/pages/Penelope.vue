@@ -1,22 +1,24 @@
 <template>
-  <sheet :character="character"/>
+  <div>
+    {{ this.character }}
+  </div>
 
 </template>
 
 <script lang="ts">
-import Sheet from 'src/components/BetaSheet.vue';
+import { NewCharacter } from 'src/store/newcharacter';
 
 export default {
   name: 'Penelope',
   meta: {
     title: 'Penelope',
   },
-  components: {
-    Sheet,
-  },
+
   data() {
     return {
-      character: this.$store.state.character.penelope,
+
+      character: NewCharacter.level,
+
     };
   },
 

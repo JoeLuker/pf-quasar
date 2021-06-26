@@ -7,6 +7,7 @@ import mutations from './mutations';
 
 const character: Module<ExampleStateInterface, StateInterface> = {
   namespaced: true,
+  dynamic: true,
   actions,
   getters,
   mutations,
