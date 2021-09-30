@@ -62,7 +62,8 @@
 
           <div id="defensive abilities" v-text="character.defense.defensiveAbilities"></div>
           <div id="dr" v-text="character.defense.dr"></div>
-          <div class="capitalize" id="immune" v-text=""><b>Immune: </b> {{formatArray(character.defense.immune)}}</div>
+          <div class="capitalize" id="immune" v-text=""><b>Immune: </b> {{ formatArray(character.defense.immune) }}
+          </div>
           <div id="resist" v-text="character.defense.resist"></div>
           <div id="sr" v-text="character.defense.sr"></div>
 
@@ -136,16 +137,16 @@
           <b>Feats </b> <span id="feats" class="capitalize" v-text="formatArray(character.statistics.feats)"/>
         </div>
         <div>
-        <b @click="skillToggle = !skillToggle"> Skills </b>
-        <span v-if="skillToggle">
+          <b @click="skillToggle = !skillToggle"> Skills </b>
+          <span v-if="skillToggle">
           <span class="capitalize">
             {{ formatSkills(skills) }}
             <!--                        {{ skills }}-->
 
         </span>
         </span>
-        <span v-if="!skillToggle">...</span>
-          </div>
+          <span v-if="!skillToggle">...</span>
+        </div>
         <div id="languages" v-text="character.statistics.languages"></div>
         <div id="sq" v-text="character.statistics.specialQualities"></div>
 
@@ -235,12 +236,39 @@ export default {
     return {
       character: this.$store.state.character.sareah,
       toggle: {
-        'Mage Armor': {
+        'Mage Amor': {
           type: 'armor',
-          bonus: 4,
           active: true,
-          duration: 2,
-          effect: ['ac'],
+          duration: 1,
+          bonus: {
+            ac: 4,
+          },
+        },
+        Barkskin: {
+          type: 'natural armor',
+          active: true,
+          duration: 1,
+          bonus: {
+            ac: 3,
+          },
+        },
+        'Reduce Person (Gub)': {
+          type: 'size',
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: -2,
+            dexterity: 4,
+            size: 1,
+          },
+        },
+        'Gub\'s Grace': {
+          type: 'enhancement',
+          active: false,
+          duration: 1,
+          bonus: {
+            dexterity: 6,
+          },
         },
       },
       spellName: '',
@@ -262,6 +290,9 @@ export default {
       const abilityMods = { ...this.abilityMods };
       const introData = { ...this.character.introduction };
 
+      const toggle = { ...this.toggle };
+      const toggleKeys = Object.keys(toggle);
+
       return {
         cr() {
           return '';
@@ -274,9 +305,24 @@ export default {
         },
         initiative() {
           // TODO
-          return abilityMods.dexterity + 2 + 4 + 2 + 1;
-        }
-        ,
+          // Improved Initiative
+          // Mismatched
+          // Ioun stone
+          // Elven Reflexes
+          return abilityMods.dexterity + 4 + 4 + 2 + 1;
+        },
+
+        sizeModifier() {
+          let tempSize = introData.sizeMod;
+
+          toggleKeys.forEach((button) => {
+            if ((typeof toggle[button].bonus !== 'undefined') && 'size' in toggle[button].bonus && toggle[button].active) {
+              tempSize += toggle[button].bonus.size;
+            }
+          });
+
+          return tempSize;
+        },
       };
     },
     // DEFENSE
@@ -291,15 +337,26 @@ export default {
       return {
 
         ac() {
+          const abp = {
+            shield: 1,
+            shieldEnhancment: 1,
+          };
+
+          const abpKeys = Object.keys(abp);
+
           let tempAC = 10;
 
-          tempAC += abilityMods.dexterity;
+          abpKeys.forEach((key) => {
+            tempAC += abp[key];
+          });
+
+          tempAC += abilityMods.dexterity + intro.sizeModifier();
 
           const toggleKeys = Object.keys(toggle);
 
           toggleKeys.forEach((button) => {
-            if ((typeof toggle[button].effect !== 'undefined') && toggle[button].effect.includes('ac') && toggle[button].active) {
-              tempAC += toggle[button].bonus;
+            if ((typeof toggle[button].bonus !== 'undefined') && 'ac' in toggle[button].bonus && toggle[button].active) {
+              tempAC += toggle[button].bonus.ac;
             }
           });
 
@@ -332,7 +389,7 @@ export default {
           return this.maxHP();
         },
         savingThrows() {
-          const resistanceBonus = 1;
+          const resistanceBonus = 2;
 
           return {
 
@@ -352,6 +409,8 @@ export default {
             },
             reflex() {
               let tempRef = abilityMods.dexterity;
+
+              tempRef += -2; // Mismatched
 
               if (charData.introduction.class[0].saves.ref) {
                 tempRef += 2;
@@ -394,9 +453,9 @@ export default {
       const option = {
         name: 'Small Cestus',
         attack: this.abilityMods.strength + this.baseAtk
-          + this.character.introduction.sizeMod,
+          + this.introduction.sizeModifier(),
         dieCount: 1,
-        dieSize: 3,
+        dieSize: 3 - this.introduction.sizeModifier(),
         damage: this.abilityMods.strength,
       };
 
@@ -438,9 +497,18 @@ export default {
         charisma: 0,
       };
 
+      const toggle = { ...this.$data.toggle };
+
       const keys = Object.keys(tempAbilityScores);
+      const toggleKeys = Object.keys(toggle);
 
       keys.forEach((score) => {
+        toggleKeys.forEach((button) => {
+          if ((typeof toggle[button].bonus !== 'undefined') && score in toggle[button].bonus && toggle[button].active) {
+            husk[score] += toggle[button].bonus[score];
+          }
+        });
+
         const subKeys = Object.keys(tempAbilityScores[score]);
         subKeys.forEach((subScore) => {
           husk[score] += tempAbilityScores[score][subScore];

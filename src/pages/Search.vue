@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { pg } from 'vue-postgrest';
+import { pg } from 'src/boot/pgst';
 
 import FullText from 'src/components/FullText';
 
@@ -178,7 +178,9 @@ export default {
     },
 
   },
-
+  onError(err) {
+    console.log(err);
+  },
   methods: {
     makeTab(name, entryId, table, source, alternateNameForm, thirdParty) {
       const newTab = {

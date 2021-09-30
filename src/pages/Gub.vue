@@ -137,16 +137,16 @@
           <b>Feats </b> <span id="feats" class="capitalize" v-text="formatArray(character.statistics.feats)"/>
         </div>
         <div>
-        <b @click="skillToggle = !skillToggle"> Skills </b>
-        <span v-if="skillToggle">
+          <b @click="skillToggle = !skillToggle"> Skills </b>
+          <span v-if="skillToggle">
           <span class="capitalize">
             {{ formatSkills(skills) }}
             <!--                        {{ skills }}-->
 
         </span>
         </span>
-        <span v-if="!skillToggle">...</span>
-          </div>
+          <span v-if="!skillToggle">...</span>
+        </div>
         <div id="languages" v-text="character.statistics.languages"></div>
         <div id="sq" v-text="character.statistics.specialQualities"></div>
 
@@ -316,8 +316,7 @@ export default {
           });
 
           return tempSize;
-        }
-        ,
+        },
       };
     },
     // DEFENSE

@@ -3083,7 +3083,7 @@ function state(): ExampleStateInterface {
         class: [{
           archetype: ['ley-line gaurdian'],
           name: 'witch',
-          level: 4,
+          level: 6,
           hitDie: 6,
           bab: 1 / 2,
           first: true,
@@ -3093,7 +3093,7 @@ function state(): ExampleStateInterface {
             hp: 3,
             skill: 0,
             race: {
-              'half-elf': 1,
+              'half-elf': 3,
             },
           },
           saves: {
@@ -3116,56 +3116,68 @@ function state(): ExampleStateInterface {
         immune: ['sleep'],
         resist: '',
         sr: '',
-        weaknesses: [''],
+        weaknesses: '',
       },
       offense: {
         speed: 30,
         specialAttacks: [
           {
-            name: 'Witch Hexes',
+            name: 'Witch Hexes  (DC 20)',
             hexes: [
               'cackle',
-              'misfortune (DC 18)',
+              'misfortune',
+              'evil eye',
+              'slumber',
             ],
           },
         ],
         spellLikeAbilities: '',
         spells: {
           class: 'witch',
-          casterLevel: 4,
+          casterLevel: 6,
           casting: 'spontanious',
           spells: {
-            '2nd': {
+            '3rd': {
               slots: 5,
               prepared: [
+                'suggestion',
+              ],
+            },
+            '2nd': {
+              slots: 7,
+              prepared: [
                 'lipstitch',
+                'hold person',
+                'web',
               ],
             },
             '1st': {
               slots: 8,
               prepared: [
-                '???',
-                '???',
+                'murderous command',
+                'charm person',
                 'mage armor',
                 'ear-piercing scream',
+                'beguiling gift',
               ],
             },
             Cantrips: {
               prepared: [
                 'mage hand',
-                '???',
-                '???',
-                '???',
-                '???',
-                '???',
+                'detect magic',
+                'light',
+                'daze',
+                'bleed',
+                'touch of fatigue',
               ],
             },
 
           },
           patronSpells: {
-            name: '???',
-            '1st': '???',
-            '2nd': '???',
+            name: 'jynx',
+            '1st': 'ill omen',
+            '2nd': 'shatter',
+            '3rd': 'bestow curse',
           },
 
         },
@@ -3185,7 +3197,7 @@ function state(): ExampleStateInterface {
           intelligence: {
             pointBuy: 17,
             racial: 2,
-            enhancement: 2,
+            enhancement: 4,
             levelUp: 1,
           },
           wisdom: {
@@ -3196,9 +3208,11 @@ function state(): ExampleStateInterface {
           },
         },
         feats: [
-          'expanded preparation',
-          'additional traits',
-          'craft wondrous item',
+          'Accursed Hex',
+          'Improved Initiative',
+          'Spell Focus (Enchantment)',
+          // 'Spell Focus (Necromancy)',
+          // 'Witch Knife',
         ],
         skills: {
           acrobatics: {
@@ -3414,7 +3428,7 @@ function state(): ExampleStateInterface {
         class: [
           {
             name: 'gestalt',
-            level: 11,
+            level: 12,
             first: true,
             gestalt: [
               {
@@ -3449,7 +3463,7 @@ function state(): ExampleStateInterface {
                   hp: 0,
                   skill: 0,
                   race: {
-                    human: 11,
+                    human: 12,
                   },
                 },
                 saves: {
@@ -3457,15 +3471,16 @@ function state(): ExampleStateInterface {
                   ref: true,
                   will: true,
                 },
-                casterLevel: 11,
+                casterLevel: 12,
                 casting: 'spontaneous',
                 spells: {
 
                   '4th': {
-                    slots: 3,
+                    slots: 4,
                     prepared: [
                       'Invisibility, Greater',
                       'Dimension Door',
+                      'Modify Memory',
                     ],
                   },
                   '3rd': {
@@ -3477,10 +3492,12 @@ function state(): ExampleStateInterface {
                       'Charm monster',
                       'Confusion',
                       'Good Hope',
+                      'Charm Monster',
+                      'False Future',
                     ],
                   },
                   '2nd': {
-                    slots: 6,
+                    slots: 7,
                     prepared: [
                       'Heroism',
                       'Gallant Inspiration',
@@ -3496,7 +3513,7 @@ function state(): ExampleStateInterface {
                     slots: 7,
                     prepared: [
                       'Shadow Trap',
-                      'Charm Person',
+                      '???',
                       'Fabricate Disguise',
                       'Saving Finale',
                       'Hideous Laughter',
@@ -3547,7 +3564,7 @@ function state(): ExampleStateInterface {
                   hp: 0,
                   skill: 0,
                   race: {
-                    human: 11,
+                    human: 12,
                   },
                 },
                 saves: {
@@ -3555,15 +3572,22 @@ function state(): ExampleStateInterface {
                   ref: false,
                   will: true,
                 },
-                casterLevel: 11,
+                casterLevel: 12,
                 casting: 'spontaneous',
                 spells: {
+                  '6th': {
+                    slots: 4,
+                    prepared: [
+                      'Source Severance',
+                    ],
+                  },
 
                   '5th': {
-                    slots: 5,
+                    slots: 6,
                     prepared: [
                       'Slay Living',
                       'Plane Shift',
+                      'Commune',
                     ],
                   },
                   '4th': {
@@ -3638,6 +3662,7 @@ function state(): ExampleStateInterface {
                     name: 'Time',
                     '4th': 'threefold aspect',
                     '5th': 'permanency',
+                    '6th': 'contingency',
                   },
                 ],
 
@@ -3751,7 +3776,7 @@ function state(): ExampleStateInterface {
           charisma: {
             pointBuy: 16,
             automaticBonusProgression: 4,
-            levelUp: 2,
+            levelUp: 3,
             racial: 2,
           },
         },
@@ -3770,6 +3795,8 @@ function state(): ExampleStateInterface {
           'Blood of Heroes',
           'Hero\'s Fortune',
           'Luck of Heroes',
+          '??? (Advanced Rogue Trick)',
+          '???',
         ],
         skills: {
           acrobatics: {
@@ -3783,7 +3810,7 @@ function state(): ExampleStateInterface {
             modifier: [],
           },
           bluff: {
-            ranks: 11,
+            ranks: 12,
             ability: 'charisma',
             modifier: [],
           },
@@ -3798,7 +3825,7 @@ function state(): ExampleStateInterface {
             modifier: [],
           },
           diplomacy: {
-            ranks: 11,
+            ranks: 12,
             ability: 'charisma',
             modifier: [],
           },
@@ -3818,7 +3845,7 @@ function state(): ExampleStateInterface {
             ],
           },
           disguise: {
-            ranks: 7,
+            ranks: 8,
             ability: 'charisma',
             modifier: [],
           },
@@ -3843,7 +3870,7 @@ function state(): ExampleStateInterface {
             modifier: [],
           },
           intimidate: {
-            ranks: 7,
+            ranks: 8,
             ability: 'charisma',
             modifier: [],
           },
@@ -3905,7 +3932,7 @@ function state(): ExampleStateInterface {
             modifier: [],
           },
           perception: {
-            ranks: 11,
+            ranks: 12,
             ability: 'wisdom',
             modifier: [{
               name: 'Clever Explorer',
@@ -3923,27 +3950,27 @@ function state(): ExampleStateInterface {
             modifier: [],
           },
           ride: {
-            ranks: 7,
+            ranks: 8,
             ability: 'dexterity',
             modifier: [],
           },
           'sense motive': {
-            ranks: 7,
+            ranks: 8,
             ability: 'wisdom',
             modifier: [],
           },
           'slight of hand': {
-            ranks: 7,
+            ranks: 8,
             ability: 'dexterity',
             modifier: [],
           },
           spellcraft: {
-            ranks: 7,
+            ranks: 8,
             ability: 'intelligence',
             modifier: [],
           },
           stealth: {
-            ranks: 11,
+            ranks: 12,
             ability: 'dexterity',
             modifier: [],
           },

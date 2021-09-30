@@ -447,7 +447,7 @@ export default {
 
         ac() {
           const abp = {
-            armorEnhancement: 2,
+            armorEnhancement: 3,
             deflection: 2,
             naturalArmorEnhancement: 2,
           };
