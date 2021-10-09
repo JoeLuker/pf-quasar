@@ -3122,33 +3122,41 @@ function state(): ExampleStateInterface {
         speed: 30,
         specialAttacks: [
           {
-            name: 'Witch Hexes  (DC 20)',
+            name: 'Witch Hexes (DC 21)',
             hexes: [
               'cackle',
               'misfortune',
               'evil eye',
               'slumber',
+              'flight',
             ],
+          },
+          {
+            name: 'Conduit Surge (4/day) (1d4-1)',
           },
         ],
         spellLikeAbilities: '',
         spells: {
           class: 'witch',
-          casterLevel: 6,
+          casterLevel: 7,
           casting: 'spontanious',
           spells: {
             '3rd': {
-              slots: 5,
+              slots: 6,
               prepared: [
                 'suggestion',
+                'lightning bolt',
               ],
             },
             '2nd': {
-              slots: 7,
+              slots: 8,
               prepared: [
                 'lipstitch',
                 'hold person',
                 'web',
+                '???',
+                '???',
+
               ],
             },
             '1st': {
@@ -3159,6 +3167,8 @@ function state(): ExampleStateInterface {
                 'mage armor',
                 'ear-piercing scream',
                 'beguiling gift',
+                '???',
+                '???',
               ],
             },
             Cantrips: {
@@ -3169,6 +3179,7 @@ function state(): ExampleStateInterface {
                 'daze',
                 'bleed',
                 'touch of fatigue',
+                '???',
               ],
             },
 
@@ -3193,11 +3204,12 @@ function state(): ExampleStateInterface {
           },
           constitution: {
             pointBuy: 14,
+            enhancement: 2,
           },
           intelligence: {
             pointBuy: 17,
             racial: 2,
-            enhancement: 4,
+            enhancement: 6,
             levelUp: 1,
           },
           wisdom: {
@@ -3211,7 +3223,9 @@ function state(): ExampleStateInterface {
           'Accursed Hex',
           'Improved Initiative',
           'Spell Focus (Enchantment)',
+          'Extra Hex (Flight)',
           // 'Spell Focus (Necromancy)',
+          // 'Spell Focus (Illusion)',
           // 'Witch Knife',
         ],
         skills: {
@@ -4955,6 +4969,397 @@ function state(): ExampleStateInterface {
       // MISC
       miscellaneous: '',
     },
+    ytma: {
+      introduction: {
+        name: 'Protectorate Ytma',
+        race: 'Human',
+        trait: [
+          '???',
+          '???',
+        ],
+        class: [{
+          archetype: ['hexenhammer'],
+          name: 'inquisitor',
+          level: 20,
+          hitDie: 8,
+          bab: 2 / 3,
+          first: true,
+          skillRanks: 6,
+          classSkills: ['craft', 'bluff', 'climb', 'diplomacy', 'disguise', 'fly', 'heal', 'intimidate', 'arcana', 'dungeoneering', 'nature', 'planes', 'religion', 'profession', 'ride', 'sense motive', 'spellcraft', 'stealth', 'survival', 'swim'],
+          favored: {
+            hp: 3,
+            skill: 0,
+            race: {
+              human: 17,
+            },
+          },
+          saves: {
+            fort: true,
+            ref: false,
+            will: true,
+          },
+        }],
+        alignment: 'LE',
+        size: 'medium',
+        sizeMod: 0,
+        type: 'humanoid',
+        subtype: ['human'],
+        senses: [''],
+        aura: '',
+      },
+      defense: {
+        defensiveAbilities: ['Stalwart', 'fast healing 6'],
+        dr: '',
+        immune: '',
+        resist: '',
+        sr: '',
+        weaknesses: '',
+      },
+      offense: {
+        speed: 30,
+        specialAttacks: [
+          {
+            name: 'Witch Hexes (DC 25)',
+            hexes: [
+              'blight',
+              'misfortune',
+              'agony',
+              'retribution',
+            ],
+          },
+          {
+            name: 'Master’s Yoke (DC 25)',
+          },
+        ],
+        spellLikeAbilities: '',
+        spells: {
+          class: 'inquisitor',
+          casterLevel: 20,
+          casting: 'spontanious',
+          spells: {
+            '6th': {
+              slots: 6,
+              prepared: [
+                'wither limb',
+                'curse of the outcast',
+                'overwhelming presence',
+                'greater dispel magic',
+                'unconscious agenda',
+              ],
+            },
+            '5th': {
+              slots: 6,
+              prepared: [
+                'greater command',
+                'unwilling shield',
+                'alaznist\'s jinx',
+                'mass castigate',
+              ],
+            },
+
+            '4th': {
+              slots: 6,
+              prepared: [
+                'divine power',
+                'freedom of movement',
+                'greater interrogation',
+                'greater invisibility',
+
+              ],
+            },
+
+            '3rd': {
+              slots: 6,
+              prepared: [
+                'flexile curse',
+                'dispel magic',
+                'fester',
+                'gullibility',
+              ],
+            },
+            '2nd': {
+              slots: 8,
+              prepared: [
+                'lesser nondetection',
+                'see invisibility',
+                'interrogation',
+                'invisibility',
+                'honeyed tongue',
+
+              ],
+            },
+            '1st': {
+              slots: 8,
+              prepared: [
+                'alarm',
+                'burst bonds',
+                'command',
+                'divine favor',
+                'sanctuary',
+                'cure light wounds',
+              ],
+            },
+            Cantrips: {
+              prepared: [
+                'read magic',
+                'light',
+                'detect poison',
+                'detect magic',
+                'brand',
+                'bleed',
+              ],
+            },
+
+          },
+          patronSpells: {
+            '2nd': 'blindness/deafness',
+            '3rd': 'nature\'s exile, suggestion',
+            '4th': 'deadman\'s contingency, enervation',
+            '5th': 'magic jar',
+
+          },
+
+        },
+      },
+      tactics: {
+        beforeCombat: 'Deadman\'s Contingency to teleport his body back to the cults base',
+        duringCombat: 'He opens with Judgement and overwhelming presence and judgement, Unwilling Shield and bane, Mass Castigate. Greater Command, Greater Invisibility'
+          + ' Pummelden: Wither Limb;'
+          + ' Fenmire: Nature\'s exile;'
+          + ' C4P-0: True Judgement on Familiar;'
+          + ' Sareah: Curse of the Outcast;'
+          + ' Manu: Alaznist\'s Jinx ',
+        morale: 'Ytma relishes the chance to finally \'convert\' Manu. He also knows that his death would only be temporary. He toys with the party until he dies.',
+      },
+      statistics: {
+        abilityScore: {
+          strength: {
+            pointBuy: 12,
+          },
+          dexterity: {
+            pointBuy: 10,
+          },
+          constitution: {
+            pointBuy: 14,
+            enhancement: 2,
+          },
+          intelligence: {
+            pointBuy: 8,
+          },
+          wisdom: {
+            pointBuy: 15,
+            enhancement: 4,
+            racial: 2,
+          },
+          charisma: {
+            pointBuy: 13,
+          },
+        },
+        feats: [
+          'Toughness',
+          'Improved Initiative',
+          'Iron Will',
+          'Lightning Reflexes',
+          'Great Fortitude',
+          'warrior priest',
+          'Power Attack',
+          'spell bane',
+          'improved sunder',
+          'greater sunder',
+        ],
+        skills: {
+          acrobatics: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          appraise: {
+            points: 0,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          bluff: {
+            points: 20,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          climb: {
+            points: 0,
+            ability: 'strength',
+            modifier: [],
+          },
+          craft: {
+            points: 0,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          diplomacy: {
+            points: 10,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          'disable device': {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          disguise: {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          'escape artist': {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          fly: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          'handle animal': {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          heal: {
+            points: 4,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          intimidate: {
+            points: 20,
+            ability: 'charisma',
+            modifier: [],
+          },
+          knowledge: {
+            arcana: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            dungeoneering: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            engineering: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            geography: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            history: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            local: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            nature: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            nobility: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            planes: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+            religion: {
+              points: 1,
+              ability: 'intelligence',
+              modifier: [],
+            },
+          },
+          linguistics: {
+            points: 1,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          perception: {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          perform: {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+          profession: {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          ride: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          'sense motive': {
+            points: 20,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          'slight of hand': {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          spellcraft: {
+            points: 15,
+            ability: 'intelligence',
+            modifier: [],
+          },
+          stealth: {
+            points: 0,
+            ability: 'dexterity',
+            modifier: [],
+          },
+          survival: {
+            points: 0,
+            ability: 'wisdom',
+            modifier: [],
+          },
+          swim: {
+            points: 1,
+            ability: 'strength',
+            modifier: [],
+          },
+          'use magic device': {
+            points: 0,
+            ability: 'charisma',
+            modifier: [],
+          },
+        },
+        languages: '',
+        specialQualities: '',
+      },
+      specialAbilities: '',
+      gear: '',
+      ecology: '',
+      // ecology: {
+      //   environment: '',
+      //   organization: '',
+      //   treasure: '',
+      // },
+      miscellaneous: '',
+    },
+
   };
 }
 

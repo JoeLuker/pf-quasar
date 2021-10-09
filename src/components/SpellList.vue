@@ -17,8 +17,11 @@
         </b>
         <span>—</span>
         <i v-for="(spell, index) in spellList.prepared" v-bind:key="index">
-          <span v-on:click="$emit('changeSpell', spell)">{{ spell }}</span>
+          <span v-bind:style="{ color: fuck}"
+                v-on:click="$emit('changeSpell', spell)">{{ spell }}</span>
+
           <span v-if="index !== spellList.prepared.length - 1">, </span>
+
         </i>
 
         <span v-if="typeof caster.patronSpells !== 'undefined'">
@@ -46,16 +49,44 @@
 </template>
 
 <script>
+
 export default {
   name: 'SpellLevel',
+
   data() {
     return {
       toggleKey: true,
+      fuck: 'white',
     };
   },
   props: {
     caster: Object,
   },
+  methods: {
+
+    async spellColor(value) {
+      await this.$postgrest.$ready;
+
+      const resp = await this.$postgrest.spell.get(
+        {
+          select: ['*'],
+          and: {
+            'name.ilike': value,
+          },
+        }, { limit: 1 },
+      );
+
+      const spell = await resp.json();
+
+      if (spell[0] !== undefined && spell[0].school === 'enchantment') {
+        return 'purple';
+      }
+
+      return 'green';
+    },
+
+  },
+
 };
 </script>
 

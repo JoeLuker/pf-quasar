@@ -35,7 +35,7 @@
 
         <div>
           <b>Init </b><span id="initiative" v-text="formatBonus(introduction.initiative())"></span>
-          <b> Senses </b><span id="senses" v-text="formatList(character.introduction.senses)"></span>
+          <b> Senses </b><span id="senses">Perception {{formatBonus(skills.perception)}} </span>
         </div>
 
         <div id="aura" v-text="character.introduction.aura"></div>
@@ -60,9 +60,9 @@
         </div>
         <div>
 
-          <div id="defensive abilities" v-text="character.defense.defensiveAbilities"></div>
+          <div id="defensive abilities"> <b>Defensive Abilities: </b> {{ formatArray(character.defense.defensiveAbilities) }}</div>
           <div id="dr" v-text="character.defense.dr"></div>
-          <div class="capitalize" id="immune" v-text=""><b>Immune: </b> {{ formatArray(character.defense.immune) }}
+          <div class="capitalize" id="immune" v-text="character.defense.immune">
           </div>
           <div id="resist" v-text="character.defense.resist"></div>
           <div id="sr" v-text="character.defense.sr"></div>
@@ -223,9 +223,9 @@ import FullText from 'src/components/FullText';
 import Info from 'src/components/Info';
 
 export default {
-  name: 'Sareah',
+  name: 'Ytma',
   meta: {
-    title: 'Sareah',
+    title: 'Ytma',
   },
   components: {
     SpellList,
@@ -234,42 +234,9 @@ export default {
   },
   data() {
     return {
-      character: this.$store.state.character.sareah,
+      character: this.$store.state.character.ytma,
       toggle: {
-        'Mage Amor': {
-          type: 'armor',
-          active: true,
-          duration: 1,
-          bonus: {
-            ac: 4,
-          },
-        },
-        Barkskin: {
-          type: 'natural armor',
-          active: true,
-          duration: 1,
-          bonus: {
-            ac: 3,
-          },
-        },
-        'Reduce Person (Gub)': {
-          type: 'size',
-          active: false,
-          duration: 1,
-          bonus: {
-            strength: -2,
-            dexterity: 4,
-            size: 1,
-          },
-        },
-        'Gub\'s Grace': {
-          type: 'enhancement',
-          active: false,
-          duration: 1,
-          bonus: {
-            dexterity: 6,
-          },
-        },
+
       },
       spellName: '',
       skillToggle: true,
@@ -306,10 +273,8 @@ export default {
         initiative() {
           // TODO
           // Improved Initiative
-          // Mismatched
           // Ioun stone
-          // Elven Reflexes
-          return abilityMods.dexterity + 4 + 4 + 2 + 1;
+          return abilityMods.dexterity + 4 + 1;
         },
 
         sizeModifier() {
@@ -338,9 +303,10 @@ export default {
 
         ac() {
           const abp = {
-            shield: 1,
+            armor: 5,
             shieldEnhancement: 2,
             deflection: 1,
+            natural: 1,
           };
 
           const abpKeys = Object.keys(abp);
@@ -382,7 +348,9 @@ export default {
             }
           });
 
-          hitPoints += charLevel * abilityMods.constitution;
+          // toughness
+
+          hitPoints += charLevel * (abilityMods.constitution + 1);
 
           return hitPoints;
         },
@@ -411,8 +379,6 @@ export default {
             reflex() {
               let tempRef = abilityMods.dexterity;
 
-              tempRef += -2; // Mismatched
-
               if (charData.introduction.class[0].saves.ref) {
                 tempRef += 2;
                 tempRef += Math.floor(charData.introduction.class[0].level / 2);
@@ -435,10 +401,6 @@ export default {
 
               tempWill += resistanceBonus;
 
-              // TODO
-              // auspicoius tattoo
-              tempWill += 1;
-
               return tempWill;
             },
           };
@@ -452,12 +414,12 @@ export default {
     },
     melee() {
       const option = {
-        name: 'Small Cestus',
+        name: 'light mace',
         attack: Math.max(this.abilityMods.strength, this.abilityMods.dexterity) + this.baseAtk
-          + this.introduction.sizeModifier(),
-        dieCount: 1,
-        dieSize: 3 - this.introduction.sizeModifier(),
-        damage: this.abilityMods.strength,
+          + this.introduction.sizeModifier() + 8,
+        dieCount: 5,
+        dieSize: 6 - this.introduction.sizeModifier(),
+        damage: this.abilityMods.strength + 10,
       };
 
       return `${option.name} ${this.formatBonus(option.attack)} \
@@ -870,11 +832,11 @@ export default {
   text-align: left;
   align-items: baseline;
   padding: 1vmin;
-  background-image: url("../assets/sareah_placeholder.png");
+  background-image: url("../assets/Ytma.jpg");
   background-repeat: no-repeat;
 
   background-size: 100vmax;
-  background-position: 50% 30%;
+  background-position: 50% 0%;
   background-attachment: fixed;
   justify-content: space-between;
 

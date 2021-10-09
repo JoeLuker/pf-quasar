@@ -56,10 +56,10 @@ const routes: RouteConfig[] = [
     ],
   },
   {
-    path: '/OldImmogen',
+    path: '/ytma',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/OldImmogen.vue') },
+      { path: '', component: () => import('pages/ytma.vue') },
     ],
   },
   {
