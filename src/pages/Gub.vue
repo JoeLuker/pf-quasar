@@ -251,13 +251,22 @@ export default {
             ac: 4,
           },
         },
+
+        barkskin: {
+          type: 'armor',
+          active: true,
+          duration: 2,
+          bonus: {
+            ac: 3,
+          },
+        },
         'power attack': {
           active: false,
           duration: 3,
 
         },
         'two handing': {
-          active: false,
+          active: true,
           duration: 3,
         },
         'enlarge person': {
@@ -267,6 +276,91 @@ export default {
             strength: 4,
             dexterity: -2,
             size: -1,
+          },
+        },
+        'reduce person': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: -2,
+            dexterity: 4,
+            size: 1,
+          },
+        },
+        'Gub\'s Grace': {
+          active: false,
+          duration: 1,
+          bonus: {
+            dexterity: 6,
+          },
+        },
+        'Gub\'s Strength': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: 6,
+          },
+        },
+        'Gub\'s Endurance': {
+          active: false,
+          duration: 1,
+          bonus: {
+            constitution: 4,
+          },
+        },
+        'Alter Self (Small)': {
+          active: false,
+          duration: 1,
+          bonus: {
+            dexterity: 4,
+          },
+        },
+        'Alter Self (Medium)': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: 4,
+            size: -1,
+
+          },
+        },
+
+        'Monstrous Physique I (Small)': {
+          active: false,
+          duration: 1,
+          bonus: {
+            dexterity: 4,
+            ac: 1,
+          },
+        },
+        'Monstrous Physique I (Medium)': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: 4,
+            size: -1,
+            ac: 2,
+          },
+        },
+        'Monstrous Physique II (Tiny)': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: -2,
+            dexterity: 6,
+            size: 1,
+            ac: 1,
+          },
+        },
+        'Monstrous Physique II (Large)': {
+          active: false,
+          duration: 1,
+          bonus: {
+            strength: 6,
+            dexterity: -2,
+            size: -2,
+            ac: 4,
+
           },
         },
       },
@@ -371,7 +465,7 @@ export default {
           return this.maxHP();
         },
         savingThrows() {
-          const resistanceBonus = 1;
+          const resistanceBonus = 2;
 
           return {
 
@@ -439,7 +533,7 @@ export default {
       if (toggle['two handing'].active) twoHanding = 1;
 
       let tempAttack = Math.max(this.abilityMods.dexterity, this.abilityMods.strength) + this.baseAtk
-        + this.character.introduction.sizeMod;
+        + this.introduction.sizeModifier();
       let tempDamage = Math.floor(this.abilityMods.strength * (1 + (0.5 * twoHanding)));
 
       if (toggle['power attack'].active) {
@@ -450,7 +544,7 @@ export default {
       const dieSizeMod = this.introduction.sizeModifier();
 
       const option = {
-        name: 'Small Claw',
+        name: 'Bite',
         attack: tempAttack,
         dieCount: 1,
         dieSize: 4 - dieSizeMod,
@@ -461,7 +555,35 @@ export default {
       (${option.dieCount}d${option.dieSize}${this.formatBonus(option.damage)})`;
     },
     ranged() {
-      return '';
+      const toggle = { ...this.toggle };
+
+      const toggleKeys = Object.keys(toggle);
+
+      let twoHanding = 0;
+
+      if (toggle['two handing'].active) twoHanding = 1;
+
+      let tempAttack = this.abilityMods.dexterity + this.baseAtk
+        + this.introduction.sizeModifier();
+      let tempDamage = Math.floor(this.abilityMods.strength);
+
+      if (toggle['power attack'].active) {
+        tempAttack += -(Math.floor(this.baseAtk / 4) + 1);
+        tempDamage += (Math.floor(this.baseAtk / 4) + 1) * (2 + twoHanding);
+      }
+
+      const dieSizeMod = this.introduction.sizeModifier();
+
+      const option = {
+        name: 'Goblin Bone Adaptable Composite Longbow',
+        attack: tempAttack,
+        dieCount: 1,
+        dieSize: 8 - (dieSizeMod * 2),
+        damage: tempDamage,
+      };
+
+      return `${option.name} ${this.formatBonus(option.attack)} \
+      (${option.dieCount}d${option.dieSize}${this.formatBonus(option.damage)})`;
     },
     space() {
       return '5';
@@ -471,7 +593,7 @@ export default {
     },
     specialAttacks() {
       return {
-        maxReservoir: Math.floor(this.character.introduction.class[0].level / 2) + 3,
+        maxReservoir: Math.floor(this.character.introduction.class[0].level) + 3,
         currResevoir: Math.floor(this.character.introduction.class[0].level / 2) + 3,
       };
     },
@@ -507,10 +629,13 @@ export default {
         });
       });
 
-      if (toggle['enlarge person'].active) {
-        husk.strength += 4;
-        husk.dexterity += -2;
-      }
+      keys.forEach((score) => {
+        toggleKeys.forEach((button) => {
+          if ((typeof toggle[button].bonus !== 'undefined') && score in toggle[button].bonus && toggle[button].active) {
+            husk[score] += toggle[button].bonus[score];
+          }
+        });
+      });
 
       return husk;
     },
@@ -854,7 +979,7 @@ export default {
 
   },
   created() {
-    // this.character.offense.specialAttacks[0].points = [`${this.specialAttacks.currResevoir}/${this.specialAttacks.maxReservoir}`];
+    this.character.offense.specialAttacks[0].points = [`${this.specialAttacks.currResevoir}/${this.specialAttacks.maxReservoir}`];
   },
 };
 </script>
@@ -869,7 +994,7 @@ export default {
   text-align: left;
   align-items: baseline;
   padding: 1vmin;
-  background-image: url("../assets/gub.jpg");
+  background-image: url("../assets/klaher-baklaher-monkey-goblin.jpg");
   background-repeat: no-repeat;
 
   background-size: 100vmax;

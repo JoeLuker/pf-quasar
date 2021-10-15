@@ -2377,7 +2377,7 @@ function state(): ExampleStateInterface {
   return {
     gub: {
       introduction: {
-        name: 'gub',
+        name: 'gub the great',
         race: 'monkey goblin',
         trait: [
           'oblivious',
@@ -2390,14 +2390,14 @@ function state(): ExampleStateInterface {
         class: [{
           archetype: ['brown-fur transmuter'],
           name: 'arcanist',
-          level: 4,
+          level: 8,
           hitDie: 6,
           bab: 1 / 2,
           first: true,
           skillRanks: 2,
           classSkills: ['appraise', 'craft', 'fly', 'knowledge', 'lingustics', 'profession', 'spellcraft', 'use magic device'],
           favored: {
-            hp: 4,
+            hp: 8,
             skill: 0,
             race: {
               'monkey goblin': 0,
@@ -2423,7 +2423,7 @@ function state(): ExampleStateInterface {
         immune: '',
         resist: '',
         sr: '',
-        weaknesses: [''],
+        weaknesses: '',
       },
       offense: {
         speed: 20,
@@ -2436,29 +2436,48 @@ function state(): ExampleStateInterface {
             name: 'Arcanist Exploits',
             exploits: [
               'item crafting',
-              'feral shifting',
+              'quick study',
+              'dimensional slide',
             ],
           },
         ],
         spellLikeAbilities: '',
         spells: {
           class: 'arcanist',
-          casterLevel: 4,
+          casterLevel: 8,
           casting: 'prepared',
           spells: {
-            '2nd': {
+            '4th': {
               slots: 3,
               prepared: [
-                'false life',
-                'eagle\'s splendor',
+                'remove curse',
+              ],
+            },
+            '3rd': {
+              slots: 5,
+              prepared: [
+                'haste',
+                'fly',
+              ],
+            },
+            '2nd': {
+              slots: 5,
+              prepared: [
+                'cat\'s grace',
+                'bull\'s strength',
+                'alter self',
+
               ],
             },
             '1st': {
               slots: 5,
               prepared: [
                 'enlarge person',
-                'face of the devourer',
+                'reduce person',
                 'mage armor',
+                'shield',
+                'mindlink',
+
               ],
             },
             Cantrips: {
@@ -2469,6 +2488,8 @@ function state(): ExampleStateInterface {
                 'light',
                 'acid splash',
                 'ghost sound',
+                'message',
+                'sotto voce',
               ],
             },
 
@@ -2492,7 +2513,7 @@ function state(): ExampleStateInterface {
           },
           intelligence: {
             pointBuy: 13,
-            enhancement: 2,
+            enhancement: 4,
             levelUp: 1,
           },
           wisdom: {
@@ -2501,12 +2522,23 @@ function state(): ExampleStateInterface {
           },
           charisma: {
             pointBuy: 11,
+            enhancement: 4,
+            levelUp: 1,
           },
         },
         feats: [
-          'expanded preparation',
           'additional traits',
           'craft wondrous item',
+          'craft construct',
+          'leadership (13)',
+          // 'precise shot',
+          // 'weapon focus (longbow)',
+          // 'favored prestige class',
+          // 'prestigous spellcaster',
+          // 'rapidshot',
+          // 'manyshot',
+          // 'prestigous spellcaster',
+          // 'arrow storm',
         ],
         skills: {
           acrobatics: {
@@ -3093,7 +3125,7 @@ function state(): ExampleStateInterface {
             hp: 3,
             skill: 0,
             race: {
-              'half-elf': 3,
+              'half-elf': 6,
             },
           },
           saves: {
@@ -3122,30 +3154,38 @@ function state(): ExampleStateInterface {
         speed: 30,
         specialAttacks: [
           {
-            name: 'Witch Hexes (DC 21)',
+            name: 'Witch Hexes (DC 22)',
             hexes: [
               'cackle',
               'misfortune',
               'evil eye',
               'slumber',
               'flight',
+              'gift of consumption',
             ],
           },
           {
-            name: 'Conduit Surge (4/day) (1d4-1)',
+            name: 'Conduit Surge (4/day) (1d4)',
           },
         ],
         spellLikeAbilities: '',
         spells: {
           class: 'witch',
-          casterLevel: 7,
+          casterLevel: 8,
           casting: 'spontanious',
           spells: {
+            '4th': {
+              slots: 5,
+              prepared: [
+                'enervation',
+              ],
+            },
             '3rd': {
-              slots: 6,
+              slots: 7,
               prepared: [
                 'suggestion',
                 'lightning bolt',
+                'bestow curse',
               ],
             },
             '2nd': {
@@ -3154,21 +3194,22 @@ function state(): ExampleStateInterface {
                 'lipstitch',
                 'hold person',
                 'web',
-                '???',
-                '???',
+                'enthrall',
+                'limp lash',
+                'zone of truth',
 
               ],
             },
             '1st': {
-              slots: 8,
+              slots: 9,
               prepared: [
                 'murderous command',
                 'charm person',
                 'mage armor',
                 'ear-piercing scream',
                 'beguiling gift',
-                '???',
-                '???',
+                'ill omen',
+                'ray of enfeeblement',
               ],
             },
             Cantrips: {
@@ -3180,15 +3221,19 @@ function state(): ExampleStateInterface {
                 'bleed',
                 'touch of fatigue',
                 '???',
+                '???',
+
               ],
             },
 
           },
           patronSpells: {
             name: 'jynx',
-            '1st': 'ill omen',
-            '2nd': 'shatter',
-            '3rd': 'bestow curse',
+            '1st': 'animate rope',
+            '2nd': 'mirror image',
+            '3rd': 'major image',
+            '4th': 'hallucinatory terrain',
+
           },
 
         },
@@ -3222,7 +3267,7 @@ function state(): ExampleStateInterface {
         feats: [
           'Accursed Hex',
           'Improved Initiative',
-          'Spell Focus (Enchantment)',
+          // 'Spell Focus (Enchantment)',
           'Extra Hex (Flight)',
           // 'Spell Focus (Necromancy)',
           // 'Spell Focus (Illusion)',
